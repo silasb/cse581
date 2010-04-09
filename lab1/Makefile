@@ -1,7 +1,7 @@
 MACHINE=$(shell uname -s)
 
-CFLAGS = -Wall -std=c99
-CC = cc
+CFLAGS = -Wall
+CC = g++
 LDFLAGS = -lGL -lglut
 ifeq ($(MACHINE), Darwin)
 LDFLAGS = -framework OpenGL -framework GLUT
