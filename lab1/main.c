@@ -12,13 +12,16 @@
 #endif
 
 
+#include <stdio.h>
 #include <math.h>		// Trig functions
 #include <string.h>		// Memory functions such as memset
 #include <unistd.h>
 
-#define WIDTH 256
-#define HEIGHT 256
+#define WIDTH 128
+#define HEIGHT 128
 #define NFRAMES 48
+
+enum color { R, G, B };
 
 const float PI=3.14159265358979;
 
@@ -26,7 +29,9 @@ float XPoint(float,float, float,float, float,float);
 float YPoint(float,float, float,float, float,float);
 void fractal(float,float,int,const float);
 
-unsigned char oneFrame[WIDTH * HEIGHT];
+int cur_frame;
+unsigned char oneFrame[WIDTH * HEIGHT * 3];
+unsigned char images[NFRAMES][WIDTH * HEIGHT * 3];
 
 void display()
 {
@@ -34,13 +39,13 @@ void display()
   
   for (unsigned int i = 0; i < NFRAMES; i++)
   {
-    memset(oneFrame, 0, WIDTH * HEIGHT);
-    fractal(0, 0, 10, PI*i/(NFRAMES * 0.5));
+    //memset(oneFrame, 0, WIDTH * HEIGHT * 3);
+    //fractal(0, 0, 20, PI*i/(NFRAMES * 0.5));
     
-    glDrawPixels(WIDTH, HEIGHT, GL_LUMINANCE, GL_UNSIGNED_BYTE, oneFrame);
-    glFlush();
-
+    glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[i]);
     sleep(1);
+    glFlush();
+    printf("finished displaying frame: %i\n", i);
     // insert code for sleeping
   }
 }
@@ -57,14 +62,22 @@ void keyboard(unsigned char key, int x, int y)
 
 
 int main(int argc, char** argv){
-	glutInit(&argc, argv);
-	glutInitWindowSize(WIDTH, HEIGHT);
-	glutCreateWindow("Fractal Browser");
-	glutDisplayFunc(display);
-	
-	glutMainLoop();
-  
-	return 0;
+
+  for(cur_frame = 0; cur_frame < NFRAMES; cur_frame++)
+  {
+    fractal(0, 0, 20, PI*cur_frame/(NFRAMES * 0.5));
+    printf("frame: %i complete\n", cur_frame);
+
+  }
+
+  glutInit(&argc, argv);
+  glutInitWindowSize(WIDTH, HEIGHT);
+  glutCreateWindow("Fractal Browser");
+  glutDisplayFunc(display);
+
+  glutMainLoop();
+
+  return 0;
 }
 
 float XPoint(float xc,float yc, float theta,float scale, float x,float y){
@@ -80,13 +93,15 @@ void fractal(float x, float y, int depth, const float ang) {
     
     int xc,yc;
     
-    //xc = int( (x-(-2)) * WIDTH/4. );
-    xc = (int)( (x-(-2)) * WIDTH/4.0 );
-    //yc = int( (y-(-2)) * HEIGHT/4. );
-    yc = (int)( (y-(-2)) * HEIGHT/4.0 );
+    xc = int( (x-(-2)) * WIDTH/4. );
+    //xc = (int)( (x-(-2)) * WIDTH/4.0 );
+    yc = int( (y-(-2)) * HEIGHT/4. );
+    //yc = (int)( (y-(-2)) * HEIGHT/4.0 );
     
-    oneFrame[WIDTH * yc + xc] = 255;
-    
+    int loc = (WIDTH * yc + xc) * 3;
+    images[cur_frame][loc + R] = 204;
+    images[cur_frame][loc + G] = 51;
+    images[cur_frame][loc + B] = 153;
   } else {
     fractal(XPoint(1,0,0+ang,.70710678,x,y),YPoint(1,0,0+ang,.70710678,x,y),depth-1,ang);
     fractal(XPoint(-1,0,0-ang,.70710678,x,y),YPoint(-1,0,0-ang,.70710678,x,y),depth-1,ang);
