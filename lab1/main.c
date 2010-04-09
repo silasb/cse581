@@ -1,97 +1,94 @@
+/*
+ * CSE581 - Lab #1
+ * Author: Silas Baronda
+ * Creation Date: 04/04/10
+ *
+ */
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
 
-#include <math.h>
-#include <string.h>
-#include <stdio.h>
-#include "ppm.h"
 
-#define HEIGHT 512
-#define WIDTH 512
+#include <math.h>		// Trig functions
+#include <string.h>		// Memory functions such as memset
+#include <unistd.h>
+
+#define WIDTH 256
+#define HEIGHT 256
 #define NFRAMES 48
 
-const float PI = 3.14159265358979;
+const float PI=3.14159265358979;
 
-unsigned char oneFrame[WIDTH * HEIGHT * 3];
+float XPoint(float,float, float,float, float,float);
+float YPoint(float,float, float,float, float,float);
+void fractal(float,float,int,const float);
 
-float XPoint(float xc, float yc, float theta, float scale, float x, float y);
-float YPoint(float xc, float yc, float theta, float scale, float x, float y);
-void fractal(float x, float y, int depth, const float ang);
+unsigned char oneFrame[WIDTH * HEIGHT];
 
-void display() {
+void display()
+{
   glClear(GL_COLOR_BUFFER_BIT);
-
-  for(unsigned int i = 0; i < NFRAMES; i++)
-  {
-    memset(oneFrame, 0, WIDTH * HEIGHT * 3);
-
-    printf("frame: %i\n", i);
-    fractal(0, 0, 20, PI * i/(NFRAMES * 0.5));
-
-    //PPMWriteImage(oneFrame, WIDTH, HEIGHT);
-    glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, oneFrame);
-    glFlush();
-  }
-  //PPMWriteImage(oneFrame, WIDTH, HEIGHT);
   
+  for (unsigned int i = 0; i < NFRAMES; i++)
+  {
+    memset(oneFrame, 0, WIDTH * HEIGHT);
+    fractal(0, 0, 10, PI*i/(NFRAMES * 0.5));
+    
+    glDrawPixels(WIDTH, HEIGHT, GL_LUMINANCE, GL_UNSIGNED_BYTE, oneFrame);
+    glFlush();
+
+    sleep(1);
+    // insert code for sleeping
+  }
 }
 
 void mouse(int button, int state, int x, int y)
 {
-  
+  // insert code
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
-
+  // insert code
 }
 
-int main (int argc, char ** argv) {
-  glutInit(&argc, argv);
-  glutInitWindowSize(WIDTH, HEIGHT);
-  glutCreateWindow("Fractal Browswer");
-  glutDisplayFunc(display);
+
+int main(int argc, char** argv){
+	glutInit(&argc, argv);
+	glutInitWindowSize(WIDTH, HEIGHT);
+	glutCreateWindow("Fractal Browser");
+	glutDisplayFunc(display);
+	
+	glutMainLoop();
   
-  glutMainLoop();
-  
-  return 0;
+	return 0;
 }
 
-float XPoint(float xc, float yc, float theta, float scale, float x, float y)
-{
+float XPoint(float xc,float yc, float theta,float scale, float x,float y){
   return ((x*cos(theta)-y*sin(theta))*scale+xc);
 }
 
-float YPoint(float xc, float yc, float theta, float scale, float x, float y)
-{
+float YPoint(float xc,float yc, float theta,float scale, float x,float y){
   return ((x*sin(theta)+y*cos(theta))*scale+yc);
 }
 
-void fractal(float x, float y, int depth, const float ang)
-{
-  printf("depth: %i\n", depth);
-  if(depth == 0)
-  {
-    int xc, yc;
+void fractal(float x, float y, int depth, const float ang) {
+  if (depth==0) {
     
-    xc = (int) ((x-(-2)) * WIDTH / 4.0);
-    yc = (int) ((y-(-2)) * HEIGHT / 4.0);
+    int xc,yc;
     
-    if(xc > WIDTH || xc < 0)
-      return;
+    //xc = int( (x-(-2)) * WIDTH/4. );
+    xc = (int)( (x-(-2)) * WIDTH/4.0 );
+    //yc = int( (y-(-2)) * HEIGHT/4. );
+    yc = (int)( (y-(-2)) * HEIGHT/4.0 );
     
-    if(yc > HEIGHT || yc < 0)
-      return;
+    oneFrame[WIDTH * yc + xc] = 255;
     
-    // rgb
-    oneFrame[WIDTH * yc + xc] = 204;
-    oneFrame[WIDTH * yc + xc + 1] = 51;
-    oneFrame[WIDTH * yc + xc + 2] = 153;
   } else {
-    fractal(XPoint( 1, 0, 0+ang, .70710678, x, y), YPoint( 1, 0, 0+ang, .70710678, x, y), depth-1, ang);
-    fractal(XPoint(-1, 0, 0-ang, .70710678, x, y), YPoint(-1, 0, 0-ang, .70710678, x, y), depth-1, ang);
+    fractal(XPoint(1,0,0+ang,.70710678,x,y),YPoint(1,0,0+ang,.70710678,x,y),depth-1,ang);
+    fractal(XPoint(-1,0,0-ang,.70710678,x,y),YPoint(-1,0,0-ang,.70710678,x,y),depth-1,ang);
   }
 }

@@ -3,7 +3,7 @@
  *  lab1
  *
  *  Created by Silas Baronda on 4/4/10.
- *  Copyright 2010 The Ohio State University. All rights reserved.
+ *  Copyright 2010 Silas Baronda. All rights reserved.
  *
  */
 
