@@ -8,4 +8,4 @@
 
 #include <stdio.h>
 
-void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
+void PPMWriteImage(int frame, unsigned char *imgBuffer, const int nx, const int ny);

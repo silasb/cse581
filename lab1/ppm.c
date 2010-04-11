@@ -9,11 +9,14 @@
 
 #include "ppm.h"
 
-void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny)
+void PPMWriteImage(int frame, unsigned char *imgBuffer, const int nx, const int ny)
 {
   FILE *stream;
-  
-  stream = fopen("out.ppm", "wb");
+  char *fileName[50];
+
+  snprintf(fileName, 50, "out-%d.ppm", frame);
+
+  stream = fopen(fileName, "wb");
   
   fprintf(stream, "P6\n%d %d\n255\n", nx, ny);
   

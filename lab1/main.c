@@ -16,6 +16,7 @@
 #include <math.h>		// Trig functions
 #include <string.h>		// Memory functions such as memset
 #include <unistd.h>
+#include "ppm.h"
 
 #define WIDTH 128
 #define HEIGHT 128
@@ -39,12 +40,11 @@ void display()
   
   for (unsigned int i = 0; i < NFRAMES; i++)
   {
-    //memset(oneFrame, 0, WIDTH * HEIGHT * 3);
-    //fractal(0, 0, 20, PI*i/(NFRAMES * 0.5));
+    PPMWriteImage(i, images[i], WIDTH, HEIGHT);
     
-    glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[i]);
-    sleep(1);
-    glFlush();
+    //glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[i]);
+    //sleep(1);
+    //glFlush();
     printf("finished displaying frame: %i\n", i);
     // insert code for sleeping
   }
@@ -65,9 +65,9 @@ int main(int argc, char** argv){
 
   for(cur_frame = 0; cur_frame < NFRAMES; cur_frame++)
   {
+    memset(images[cur_frame], 0, WIDTH * HEIGHT * 3);
     fractal(0, 0, 20, PI*cur_frame/(NFRAMES * 0.5));
-    printf("frame: %i complete\n", cur_frame);
-
+    printf("processing frame: %i complete\n", cur_frame);
   }
 
   glutInit(&argc, argv);
