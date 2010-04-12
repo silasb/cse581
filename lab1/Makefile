@@ -20,6 +20,6 @@ $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf *.o $(EXE)
+	rm -rf *.o $(EXE) *.ppm
 
 main: main.o 
