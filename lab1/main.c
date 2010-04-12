@@ -94,6 +94,11 @@ void skeyboard(int key, int x, int y)
   }
 }
 
+void clean_exit()
+{
+  puts("Quitting...");
+}
+
 int main(int argc, char** argv){
 
   for(cur_frame = 0; cur_frame < NFRAMES; cur_frame++)
@@ -112,6 +117,8 @@ int main(int argc, char** argv){
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
   glutSpecialFunc(skeyboard);
+
+  atexit(clean_exit);
 
   glutMainLoop();
 
