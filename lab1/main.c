@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include "ppm.h"
 
-#define WIDTH 128
-#define HEIGHT 128
+#define WIDTH 512
+#define HEIGHT 512
 #define NFRAMES 48
 
 enum color { R, G, B };
@@ -103,7 +103,6 @@ int main(int argc, char** argv){
 
   for(cur_frame = 0; cur_frame < NFRAMES; cur_frame++)
   {
-    memset(images[cur_frame], 0, WIDTH * HEIGHT * 3);
     fractal(0, 0, 20, PI*cur_frame/(NFRAMES * 0.5));
     printf("processing frame: %i complete\n", cur_frame);
   }
