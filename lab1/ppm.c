@@ -20,7 +20,7 @@ void PPMWriteImage(int frame, unsigned char *imgBuffer, const int nx, const int 
   
   fprintf(stream, "P6\n%d %d\n255\n", nx, ny);
   
-  for( int iy = 0; iy < ny; iy++ )
+  for( int iy = ny; iy > 0; iy-- )
   {
     for( int ix = 0; ix < nx; ix++ )
     {
