@@ -23,6 +23,8 @@
 #define HEIGHT 512
 #define NFRAMES 48
 
+int xrange;
+
 enum color { R, G, B };
 
 const float PI=3.14159265358979;
@@ -143,10 +145,20 @@ void fractal(float x, float y, int depth, const float ang) {
     //yc = (int)( (y-(-2)) * HEIGHT/4.0 );
     
     int loc = (WIDTH * yc + xc) * 3;
-    images[cur_frame][loc + R] = 204;
-    images[cur_frame][loc + G] = 51;
-    images[cur_frame][loc + B] = 153;
+
+    if(xc < xrange)
+    {
+      images[cur_frame][loc + R] = xrange;
+      images[cur_frame][loc + G] = xrange;
+      images[cur_frame][loc + B] = xrange;
+    }
+    else {
+      images[cur_frame][loc + R] = 204;
+      images[cur_frame][loc + G] = 51;
+      images[cur_frame][loc + B] = 153;
+    }
   } else {
+    xrange++;
     fractal(XPoint(1,0,0+ang,.70710678,x,y),YPoint(1,0,0+ang,.70710678,x,y),depth-1,ang);
     fractal(XPoint(-1,0,0-ang,.70710678,x,y),YPoint(-1,0,0-ang,.70710678,x,y),depth-1,ang);
   }
