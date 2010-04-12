@@ -12,7 +12,7 @@
 void PPMWriteImage(int frame, unsigned char *imgBuffer, const int nx, const int ny)
 {
   FILE *stream;
-  char *fileName[50];
+  char fileName[50];
 
   snprintf(fileName, 50, "out-%d.ppm", frame);
 

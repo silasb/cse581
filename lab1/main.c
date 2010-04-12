@@ -16,6 +16,7 @@
 #include <math.h>		// Trig functions
 #include <string.h>		// Memory functions such as memset
 #include <unistd.h>
+#include <stdlib.h>
 #include "ppm.h"
 
 #define WIDTH 128
@@ -31,35 +32,67 @@ float YPoint(float,float, float,float, float,float);
 void fractal(float,float,int,const float);
 
 int cur_frame;
-unsigned char oneFrame[WIDTH * HEIGHT * 3];
 unsigned char images[NFRAMES][WIDTH * HEIGHT * 3];
+
+// window idenfitier
+static int win;
 
 void display()
 {
+  printf("displaying frame: %i\n", cur_frame);
+
   glClear(GL_COLOR_BUFFER_BIT);
   
-  for (unsigned int i = 0; i < NFRAMES; i++)
-  {
-    PPMWriteImage(i, images[i], WIDTH, HEIGHT);
-    
-    //glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[i]);
-    //sleep(1);
-    //glFlush();
-    printf("finished displaying frame: %i\n", i);
-    // insert code for sleeping
-  }
+  glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[cur_frame]);
+  glFlush();
 }
 
 void mouse(int button, int state, int x, int y)
 {
-  // insert code
+  if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+  {
+    for(cur_frame = 0; cur_frame < NFRAMES; cur_frame++)
+    {
+      glClear(GL_COLOR_BUFFER_BIT);
+      glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[cur_frame]);
+      sleep(1);
+      glFlush();
+    }
+  }
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
-  // insert code
+  switch(key)
+  {
+    case 's':
+      printf("writing PPM image out to out-%i.ppm\n", cur_frame);
+      PPMWriteImage(cur_frame, images[cur_frame], WIDTH, HEIGHT);
+      break;
+    case 'd':
+      cur_frame--;
+      if(cur_frame < 0) cur_frame = NFRAMES - 1;
+      display();
+      break;
+    case 'f':
+      cur_frame++;
+      if(cur_frame >= NFRAMES) cur_frame = 0;
+      display();
+      break;
+    case 'q':
+      glutDestroyWindow(win);
+      exit(0);
+  }
 }
 
+void skeyboard(int key, int x, int y)
+{
+  switch(key) {
+    case GLUT_KEY_F1:
+      printf("HIT F1 key\n");
+      break;
+  }
+}
 
 int main(int argc, char** argv){
 
@@ -70,10 +103,15 @@ int main(int argc, char** argv){
     printf("processing frame: %i complete\n", cur_frame);
   }
 
+  cur_frame = 0;
+
   glutInit(&argc, argv);
   glutInitWindowSize(WIDTH, HEIGHT);
-  glutCreateWindow("Fractal Browser");
+  win =  glutCreateWindow("Fractal Browser");
   glutDisplayFunc(display);
+  glutKeyboardFunc(keyboard);
+  glutMouseFunc(mouse);
+  glutSpecialFunc(skeyboard);
 
   glutMainLoop();
 
