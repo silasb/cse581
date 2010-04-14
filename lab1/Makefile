@@ -8,7 +8,7 @@ LDFLAGS = -framework OpenGL -framework GLUT
 endif
 
 EXE=lab1
-SOURCES=main.c ppm.c
+SOURCES=main.cpp ppm.cpp
 OBJECTS = $(SOURCES:.c=.o)
 
 all: $(SOURCES) $(EXE)
