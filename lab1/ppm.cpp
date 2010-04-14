@@ -7,6 +7,10 @@
  *
  */
 
+#if defined(_WIN32) || defined(__WIN32__)
+#include "windows.h"
+#endif
+
 #include "ppm.h"
 
 void PPMWriteImage(int frame, unsigned char *imgBuffer, const int nx, const int ny)
@@ -14,7 +18,11 @@ void PPMWriteImage(int frame, unsigned char *imgBuffer, const int nx, const int 
   FILE *stream;
   char fileName[50];
 
+#if defined(_WIN32) || defined(__WIN32__)
+  _snprintf(fileName, 50, "out-%d.ppm", frame);
+#else
   snprintf(fileName, 50, "out-%d.ppm", frame);
+#endif
 
   stream = fopen(fileName, "wb");
   

@@ -5,6 +5,12 @@
  *
  */
 
+#if defined(_WIN32) || defined(__WIN32__)
+#include "windows.h"
+#else
+#include <unistd.h>
+#endif
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -15,7 +21,6 @@
 #include <stdio.h>
 #include <math.h>		// Trig functions
 #include <string.h>		// Memory functions such as memset
-#include <unistd.h>
 #include <stdlib.h>
 #include "ppm.h"
 
@@ -57,7 +62,11 @@ void mouse(int button, int state, int x, int y)
     {
       glClear(GL_COLOR_BUFFER_BIT);
       glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[cur_frame]);
+#if defined(_WIN32) || defined(__WIN32__)
+      Sleep(10);
+#else
       sleep(1);
+#endif
       glFlush();
     }
   }
