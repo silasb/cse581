@@ -58,17 +58,9 @@ void mouse(int button, int state, int x, int y)
 {
   if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
   {
-    for(cur_frame = 0; cur_frame < NFRAMES; cur_frame++)
-    {
-      glClear(GL_COLOR_BUFFER_BIT);
-      glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[cur_frame]);
-#if defined(_WIN32) || defined(__WIN32__)
-      Sleep(10);
-#else
-      sleep(1);
-#endif
-      glFlush();
-    }
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, images[cur_frame++]);
+    glFlush();
   }
 }
 

@@ -2,9 +2,11 @@ h2. Readme
 
 Author: "Silas Baronda":http://github.com/silasb
 
-h3. Instructions
+Images [out-1.ppm, out-2.ppm]
 
-TODO
+h3. To reproduce these images 
+
+Go to frame 16 hit the 's' key then go to frame 22 and hit the 's' again.
 
 h3. Functionality
 
