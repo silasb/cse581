@@ -148,10 +148,8 @@ void fractal(float x, float y, int depth, const float ang) {
     
     int xc,yc;
     
-    xc = int( (x-(-2)) * WIDTH/4. );
-    //xc = (int)( (x-(-2)) * WIDTH/4.0 );
-    yc = int( (y-(-2)) * HEIGHT/4. );
-    //yc = (int)( (y-(-2)) * HEIGHT/4.0 );
+    xc = int( (x-(-2)) * WIDTH/4.0 );
+    yc = int( (y-(-2)) * HEIGHT/4.0 );
     
     int loc = (WIDTH * yc + xc) * 3;
 
