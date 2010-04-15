@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		1E400983116960AE00935BC8 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		1E400983116960AE00935BC8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1E400984116960AE00935BC8 /* ppm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ppm.h; sourceTree = "<group>"; };
-		1E400985116960AF00935BC8 /* ppm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ppm.c; sourceTree = "<group>"; };
+		1E400985116960AF00935BC8 /* ppm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ppm.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		08FB7794FE84155DC02AAC07 /* lab1 */ = {
 			isa = PBXGroup;
 			children = (
-				1E400983116960AE00935BC8 /* main.c */,
+				1E400983116960AE00935BC8 /* main.cpp */,
 				1E400984116960AE00935BC8 /* ppm.h */,
-				1E400985116960AF00935BC8 /* ppm.c */,
+				1E400985116960AF00935BC8 /* ppm.cpp */,
 				1E40099E1169673400935BC8 /* Products */,
 			);
 			name = lab1;
