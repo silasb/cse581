@@ -4,16 +4,12 @@ Author: "Silas Baronda":http://github.com/silasb
 
 h3. Instructions
 
-Microsoft way:
-Stick them in a Visual Studio Solution and setup the project to run as a console application and then add linker depdendancies as glut32.lib opengl32.lib glu32.lib.
+To use this template just open the @Makefile@ and add your sources to the @SOURCES@ variable.
 
-Then just build solution.
+So if you wanted to add a new file called @image.cpp@ then just append @image.cpp@ to the @SOURCES@
 
-Mac or Unix way:
-git clone http://github.com/silasb/cse581.git silasb
-cd silasb/{{ project name }}
-make
-./{{ project name }}
-
-h3. Functionality
-
+<pre>
+<code>
+SOURCES=main.cpp image.cpp
+</code>
+</pre>
