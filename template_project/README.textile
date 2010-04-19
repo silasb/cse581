@@ -1,0 +1,27 @@
+h2. Readme
+
+Author: "Silas Baronda":http://github.com/silasb
+
+Image contest images: [out_1.ppm, out_2.ppm]
+
+h3. Instructions
+
+Microsoft way:
+Stick them in a Visual Studio Solution and setup the project to run as a console application and then add linker depdendancies as glut32.lib opengl32.lib glu32.lib.
+
+Mac or Unix way:
+git clone http://github.com/silasb/cse581.git silasb
+cd silasb/
+make
+./lab1
+
+Then just build solution.
+
+
+h3. Functionality
+
+This problem provides all the requirements that were listed in the lab manual.
+
+# -Improve the look of the fractal drawing.-
+# -Improve the speed at which we display the animation.-
+# -Attach actions to mouse and keyboard events in order to display the entire animation, step through each frame of the animation, and save a frame of the animation to a PPM(portable pixmap file format) format image file.-
