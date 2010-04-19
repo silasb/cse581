@@ -1,6 +1,6 @@
 MACHINE=$(shell uname -s)
 
-CFLAGS = -Wall
+CFLAGS = -Wall -O3
 CC = g++
 LDFLAGS = -lGL -lglut
 ifeq ($(MACHINE), Darwin)
@@ -9,17 +9,15 @@ endif
 
 EXE=lab1
 SOURCES=main.cpp ppm.cpp
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS=$(SOURCES:.cpp=.o)
 
 all: $(SOURCES) $(EXE)
 
 $(EXE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) $^ -o $@
 
-.o:
-	$(CC) $(CFLAGS) $< -o $@
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf *.o $(EXE) *.ppm
-
-main: main.o 
