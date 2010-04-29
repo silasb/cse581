@@ -24,10 +24,33 @@
 #define HEIGHT 512
 #define NFRAMES 48
 
+static bool lButtonDown;
+
 // window idenfitier
 static int win;
 
 scene_t test;
+
+static void mMotion(int x, int y)
+{
+  bool changed = false;
+  const int dx = x;
+  const int dy = y;
+
+  if(lButtonDown)
+    printf("moved to %i, %i\n", x, y);
+}
+
+static void mButton(int button, int state, int x, int y)
+{
+  if(button == GLUT_LEFT_BUTTON)
+  {
+    if(state == GLUT_DOWN)
+      lButtonDown = true;
+    else
+      lButtonDown = false;
+  }
+}
 
 static void resize(int width, int height)
 {
@@ -126,6 +149,9 @@ int main(int argc, char** argv)
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
   glutSpecialFunc(skeyboard);
+
+  glutMouseFunc(mButton);
+  glutMotionFunc(mMotion);
 
   /*
   glClearColor(0, 0, 0, 0);
