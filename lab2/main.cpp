@@ -56,16 +56,18 @@ static void resize(int width, int height)
 {
   //const float ar = (float) width / (float) height;
 
-  glViewport(0, 0, width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  //gluPerspective(45.0f, (float)width/(float)height, 0.2f, 255.0f);
-  glOrtho(0, width, height, 0, 0, 1);
+  glViewport(0, 0, width, height);
+  //        left, right, bottom, top, near, far
+  //glOrtho(0,    width, height, 0,   0,    1  );
+
+  // this might be from left to right (0 to width)
+  // and bottom to top (0 to height)
+  gluOrtho2D(-5, 5, -5, 5);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
-  glTranslatef (0.375, 0.375, 0);
 }
 
 void reshape(GLsizei width, GLsizei height)
@@ -77,16 +79,11 @@ void display()
 {
   glClear(GL_COLOR_BUFFER_BIT);
 
+  glPushMatrix();
   drawScene(&test);
+  glPopMatrix();
 
   glutSwapBuffers();
-}
-
-void mouse(int button, int state, int x, int y)
-{
-  if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-  {
-  }
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -145,23 +142,13 @@ int main(int argc, char** argv)
   win = glutCreateWindow("lab2");
 
   glutDisplayFunc(display);
-  //glutReshapeFunc(resize);
-  glutKeyboardFunc(keyboard);
-  glutMouseFunc(mouse);
-  glutSpecialFunc(skeyboard);
+  glutReshapeFunc(resize);
 
+  // events
+  glutKeyboardFunc(keyboard);
+  glutSpecialFunc(skeyboard);
   glutMouseFunc(mButton);
   glutMotionFunc(mMotion);
-
-  /*
-  glClearColor(0, 0, 0, 0);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0, 100, 0, 100);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  */
 
   glutMainLoop();
 
