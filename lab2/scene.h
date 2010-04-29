@@ -11,10 +11,9 @@ typedef struct scene_s
   polygon_t *pList;
 } scene_t;
 
-void loadModel(const char *, scene_t *);
-void freeModel(scene_t *);
+void loadScene(const char *, scene_t *);
+void freeScene(scene_t *);
 
 void drawScene(scene_t *s);
-void drawPolygon(polygon_t *p);
 
 #endif

@@ -107,7 +107,7 @@ int main(int argc, char** argv)
 
   char *fileName = argv[1];
 
-  loadModel(fileName, &test);
+  loadScene(fileName, &test);
 
   //if(processFile(fileName))
   /*
@@ -139,7 +139,7 @@ int main(int argc, char** argv)
 
   glutMainLoop();
 
-  freeModel(&test);
+  freeScene(&test);
 
   return 0;
 }

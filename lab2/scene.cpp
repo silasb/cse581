@@ -5,8 +5,9 @@
 
 void loadPolygon(FILE **file, polygon_t *polygon, vertex_s *vList);
 void getColorList(FILE *file, int nVertices, polygon_t *polygon);
+void drawPolygon(polygon_t *p);
 
-void loadModel(const char *fileName, scene_t *scene)
+void loadScene(const char *fileName, scene_t *scene)
 {
   printf("Opening: %s\n", fileName);
 
@@ -51,7 +52,7 @@ void loadModel(const char *fileName, scene_t *scene)
 
 }
 
-void freeModel(scene_t *scene)
+void freeScene(scene_t *scene)
 {
   if( scene->vList)
   {
