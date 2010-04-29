@@ -6,20 +6,26 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
+
 typedef struct vertex_s
 {
   // 2d
-  float x, y;
+  GLfloat x, y;
   // colors
-  float r, g, b;
+  GLfloat r, g, b;
 } vertex_t;
 
 typedef struct transformation_s
 {
   int type;
   union {
-    struct { float x, y; };
-    struct { int d; };
+    struct { GLfloat x, y; };
+    struct { GLint d; };
   };
 } trans_t;
 
@@ -30,8 +36,8 @@ typedef struct polygon_s
   vertex_t *vList;
   trans_t *tList;
 
-  int fill;
-  float lWidth;
+  GLboolean fill;
+  GLfloat lWidth;
   char scale;
   int lRotate;
   int gRotate;

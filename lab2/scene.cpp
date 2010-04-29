@@ -121,7 +121,7 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
     fscanf(*file, "%f", &polygon->lWidth);
   }
   else
-    polygon->fill = 1;
+    polygon->fill = true;
 
   printf("fill: %i\n", polygon->fill);
   printf("lWidth: %f\n", polygon->lWidth);
