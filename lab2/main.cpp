@@ -17,12 +17,15 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
 
 #include "scene.h"
 
 #define WIDTH 512
 #define HEIGHT 512
 
+static int _mouseX = 0;
+static int _mouseY = 0;
 static bool lButtonDown;
 static bool rButtonDown;
 
@@ -34,15 +37,36 @@ scene_t test;
 static void mMotion(int x, int y)
 {
   bool changed = false;
-  const int dx = x;
-  const int dy = y;
+
+  const int dx = x - _mouseX;
+  const int dy = y - _mouseY;
+
+  if(dx == 0 && dy == 0)
+    return;
 
   if(lButtonDown)
-    printf("moved to %i, %i\n", x, y);
+    printf("moved to %i, %i\n", dx, dy);
+  else if(rButtonDown)
+  {
+    double s = exp((double)dy*0.01);
+
+    glScalef(s, s, 0);
+
+    changed = true;
+  }
+
+  _mouseX = x;
+  _mouseY = y;
+
+  if(changed)
+    glutPostRedisplay();
 }
 
 static void mButton(int button, int state, int x, int y)
 {
+  _mouseX = x;
+  _mouseY = y;
+
   if(button == GLUT_LEFT_BUTTON)
   {
     if(state == GLUT_DOWN)
@@ -57,6 +81,7 @@ static void mButton(int button, int state, int x, int y)
     else
       rButtonDown = false;
   }
+  glutPostRedisplay();
 }
 
 static void resize(int width, int height)
