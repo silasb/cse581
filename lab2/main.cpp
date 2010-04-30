@@ -90,13 +90,17 @@ static void resize(int width, int height)
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glViewport(0, 0, width, height);
+
+  if(height > width)
+    glViewport(0, height-width, width, width);
+  else
+    glViewport(0, 0, height, height);
   //        left, right, bottom, top, near, far
   //glOrtho(0,    width, height, 0,   0,    1  );
 
   // this might be from left to right (0 to width)
   // and bottom to top (0 to height)
-  gluOrtho2D(-5, 5, -5, 5);
+  gluOrtho2D(-1, 1, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
