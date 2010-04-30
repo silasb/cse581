@@ -28,6 +28,7 @@ static int _mouseX = 0;
 static int _mouseY = 0;
 static bool lButtonDown;
 static bool rButtonDown;
+static float zoom = 1;
 
 // window idenfitier
 static int win;
@@ -48,9 +49,17 @@ static void mMotion(int x, int y)
     printf("moved to %i, %i\n", dx, dy);
   else if(rButtonDown)
   {
-    double s = exp((double)dy*0.01);
+    zoom += dy * 0.01;
 
-    glScalef(s, s, 0);
+    int width = glutGet(GLUT_WINDOW_WIDTH);
+    int height = glutGet(GLUT_WINDOW_HEIGHT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    gluOrtho2D(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
     changed = true;
   }
