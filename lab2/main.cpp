@@ -24,6 +24,7 @@
 #define HEIGHT 512
 
 static bool lButtonDown;
+static bool rButtonDown;
 
 // window idenfitier
 static int win;
@@ -48,6 +49,13 @@ static void mButton(int button, int state, int x, int y)
       lButtonDown = true;
     else
       lButtonDown = false;
+  }
+  else if(button == GLUT_RIGHT_BUTTON)
+  {
+    if(state == GLUT_DOWN)
+      rButtonDown = true;
+    else
+      rButtonDown = false;
   }
 }
 
@@ -99,6 +107,8 @@ void keyboard(unsigned char key, int x, int y)
       break;
     case 'l':
       reshape(1024, 1024);
+      break;
+    case 'n':
       break;
     case 'q':
       glutDestroyWindow(win);
