@@ -1,7 +1,12 @@
 #include "scene.h"
 #include <cstdio>
 #include <cstdlib>
+
+#ifdef __APPLE__
 #include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 
 void loadPolygon(FILE **file, polygon_t *polygon, vertex_s *vList);
 void getColorList(FILE *file, int nVertices, polygon_t *polygon);
