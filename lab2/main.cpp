@@ -56,7 +56,7 @@ static void mMotion(int x, int y)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluOrtho2D(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom);
+    glOrtho(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -109,7 +109,7 @@ static void resize(int width, int height)
 
   // this might be from left to right (0 to width)
   // and bottom to top (0 to height)
-  gluOrtho2D(-1, 1, -1, 1);
+  glOrtho(-1, 1, -1, 1, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
