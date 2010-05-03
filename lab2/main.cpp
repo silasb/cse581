@@ -189,6 +189,7 @@ void keyboard(unsigned char key, int x, int y)
       else enabled_pip = true;
       break;
     case 'q':
+    case 27:
       glutDestroyWindow(win);
       exit(0);
   }
