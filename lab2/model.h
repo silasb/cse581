@@ -51,7 +51,7 @@ typedef struct polygon_s
   int gRotate;
   GLfloat scale_number;
   bool clockwise;
-  GLfloat current_angle;
+  GLfloat l_angle, g_angle;
 } polygon_t;
 
 typedef struct model_s

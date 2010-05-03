@@ -206,7 +206,7 @@ void drawPolygon(polygon_t *p)
   glLoadIdentity();
 
   if(p->gRotate == 1 || p->gRotate == 2)
-    glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
+    glRotatef(p->g_angle, 0.0f, 0.0f, 1.0f);
 
   for(int j = 0; j < p->nTrans; j++)
   {
@@ -220,8 +220,11 @@ void drawPolygon(polygon_t *p)
 
   if(p->scale == 'y') 
     glScalef(p->scale_number, p->scale_number, 0);
-  if(p->lRotate == 1 || p->lRotate == 2)
-    glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
+  if(p->lRotate == 1 || p->lRotate == 2) {
+    glRotatef(p->l_angle, 0.0f, 0.0f, 1.0f);
+  }
+  if(p->gRotate == 1 || p->gRotate == 2)
+    glRotatef(-p->g_angle, 0.0f, 0.0f, 1.0f);
 
   if(p->fill)
     glBegin(GL_POLYGON);
@@ -257,14 +260,14 @@ void animate(scene_t *s)
     }
 
     if(s->pList[i].lRotate == 1)
-      s->pList[i].current_angle -= grow_rate * 100;
+      s->pList[i].l_angle -= grow_rate * 100;
     else if(s->pList[i].lRotate == 2)
-      s->pList[i].current_angle += grow_rate * 100;
+      s->pList[i].l_angle += grow_rate * 100;
 
     if(s->pList[i].gRotate == 1)
-      s->pList[i].current_angle -= grow_rate * 100;
+      s->pList[i].g_angle -= grow_rate * 100;
     else if(s->pList[i].gRotate == 2)
-      s->pList[i].current_angle += grow_rate * 100;
+      s->pList[i].g_angle += grow_rate * 100;
   }
   glutPostRedisplay();
 }
