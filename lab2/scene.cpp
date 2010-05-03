@@ -84,14 +84,16 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
   // skip the space
   fseek(*file, 1, SEEK_CUR);
 
+  // copy vertices from scene vlist to polygon vlist
   int i = 0;
   while(i < polygon->nVertices)
   {
-    int ch = fgetc(*file);
+    char ch = fgetc(*file);
     if((ch >= 0x30 && ch <= 0x39)) 
     { 
-      polygon->vList[i].x = vList[i].x;
-      polygon->vList[i].y = vList[i].y;
+      int mast_pos = atoi(&ch);
+      polygon->vList[i].x = vList[mast_pos].x;
+      polygon->vList[i].y = vList[mast_pos].y;
       i++;
     }
   }
