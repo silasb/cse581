@@ -24,11 +24,16 @@
 #define WIDTH 512
 #define HEIGHT 512
 
+void pip();
+
 static int _mouseX = 0;
 static int _mouseY = 0;
 static bool lButtonDown;
 static bool rButtonDown;
 static float zoom = 1;
+
+bool enabled_pip = false;
+GLint viewport[2];
 
 // window idenfitier
 static int win;
@@ -42,29 +47,19 @@ static void mMotion(int x, int y)
   const int dx = x - _mouseX;
   const int dy = y - _mouseY;
 
-  GLint viewport[4];
-  glGetIntegerv(GL_VIEWPORT, viewport);
-
   if(dx == 0 && dy == 0)
     return;
 
   if(lButtonDown) 
   {
-    glViewport(viewport[0] + dx, viewport[1] - dy, viewport[2], viewport[3]);
+    viewport[0] += dx;
+    viewport[1] -= dy;
     
     changed = true;
   }
   else if(rButtonDown)
   {
     zoom += dy * 0.01;
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glOrtho(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom, -1, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 
     changed = true;
   }
@@ -129,6 +124,21 @@ void display()
 {
   glClear(GL_COLOR_BUFFER_BIT);
 
+  if(enabled_pip)
+  {
+    pip();
+  }
+
+  glViewport(viewport[0], viewport[1], 512, 512);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  glOrtho(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom, -1, 1);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
   glPushMatrix();
   drawScene(&test);
   glPopMatrix();
@@ -136,6 +146,24 @@ void display()
   glFlush();
 
   glutSwapBuffers();
+}
+
+void
+pip()
+{
+  glViewport(0, 0, 200, 200);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  glOrtho(-1, 1, -1, 1, -1, 1);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  glPushMatrix();
+  drawScene(&test);
+  glPopMatrix();
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -154,6 +182,11 @@ void keyboard(unsigned char key, int x, int y)
       reshape(1024, 1024);
       break;
     case 'n':
+      break;
+    case 'm':
+      if(enabled_pip) enabled_pip = false; 
+      else enabled_pip = true;
+      glutPostRedisplay();
       break;
     case 'q':
       glutDestroyWindow(win);
