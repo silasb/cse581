@@ -23,6 +23,11 @@ void loadScene(const char *fileName, scene_t *scene)
     // fscanf the number of vertices
     fscanf(file, "%i", &scene->nVertices);
 
+    if(scene->nVertices < 3) {
+      fprintf(stderr, "Need more than three vertices defined\n");
+      exit(1);
+    }
+
     // alloc scene vertice list
     scene->vList = (vertex_t *)malloc(scene->nVertices * sizeof(vertex_t));
 
