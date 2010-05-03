@@ -33,7 +33,7 @@ static bool rButtonDown;
 static float zoom = 1;
 
 bool enabled_pip = true;
-GLint viewport[2];
+GLfloat viewport[2];
 
 // window idenfitier
 static int win;
@@ -52,9 +52,9 @@ static void mMotion(int x, int y)
 
   if(lButtonDown) 
   {
-    viewport[0] += dx;
-    viewport[1] -= dy;
-    
+    viewport[0] -= dx * 0.005;
+    viewport[1] += dy * 0.005;
+
     changed = true;
   }
   else if(rButtonDown)
@@ -84,13 +84,10 @@ static void mButton(int button, int state, int x, int y)
       lButtonDown = false;
   }
   else if(button == GLUT_RIGHT_BUTTON)
-  {
     if(state == GLUT_DOWN)
       rButtonDown = true;
     else
       rButtonDown = false;
-  }
-  glutPostRedisplay();
 }
 
 static void resize(int width, int height)
@@ -101,15 +98,15 @@ static void resize(int width, int height)
   glLoadIdentity();
 
   if(height > width)
-    glViewport(viewport[0], viewport[1], width, width);
+    glViewport(0, height-width, width, width);
   else
-    glViewport(viewport[0], viewport[1], height, height);
+    glViewport(0, 0, height, height);
   //        left, right, bottom, top, near, far
   //glOrtho(0,    width, height, 0,   0,    1  );
 
   // this might be from left to right (0 to width)
   // and bottom to top (0 to height)
-  glOrtho(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom, -1, 1);
+  glOrtho(-1, 1, -1, 1, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -128,11 +125,20 @@ void display()
   glClear(GL_COLOR_BUFFER_BIT);
 
   if(enabled_pip)
-  {
     pip(width, height);
-  }
 
-  resize(width, height);
+  if(height > width)
+    glViewport(0, height-width, width, width);
+  else
+    glViewport(0, 0, height, height);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  glOrtho(-1 * zoom + viewport[0], 1 * zoom + viewport[0], -1 * zoom + viewport[1], 1 * zoom + viewport[1], -1, 1);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 
   drawScene(&test);
 
