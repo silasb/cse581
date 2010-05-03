@@ -182,11 +182,11 @@ void keyboard(unsigned char key, int x, int y)
       reshape(1024, 1024);
       break;
     case 'n':
+      viewport[0] = 0; viewport[1] = 0; zoom = 1;
       break;
     case 'm':
       if(enabled_pip) enabled_pip = false; 
       else enabled_pip = true;
-      glutPostRedisplay();
       break;
     case 'q':
       glutDestroyWindow(win);
