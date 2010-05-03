@@ -24,7 +24,7 @@
 #define WIDTH 512
 #define HEIGHT 512
 
-void pip();
+void pip(int, int);
 
 static int _mouseX = 0;
 static int _mouseY = 0;
@@ -101,15 +101,15 @@ static void resize(int width, int height)
   glLoadIdentity();
 
   if(height > width)
-    glViewport(0, height-width, width, width);
+    glViewport(viewport[0], viewport[1], width, width);
   else
-    glViewport(0, 0, height, height);
+    glViewport(viewport[0], viewport[1], height, height);
   //        left, right, bottom, top, near, far
   //glOrtho(0,    width, height, 0,   0,    1  );
 
   // this might be from left to right (0 to width)
   // and bottom to top (0 to height)
-  glOrtho(-1, 1, -1, 1, -1, 1);
+  glOrtho(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -122,14 +122,19 @@ void reshape(GLsizei width, GLsizei height)
 
 void display()
 {
+  int width = glutGet(GLUT_WINDOW_WIDTH);
+  int height = glutGet(GLUT_WINDOW_HEIGHT);
+
   glClear(GL_COLOR_BUFFER_BIT);
 
   if(enabled_pip)
   {
-    pip();
+    pip(width, height);
   }
 
-  glViewport(viewport[0], viewport[1], 512, 512);
+  resize(width, height);
+  /*
+  glViewport(viewport[0], viewport[1], width, height);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -138,6 +143,7 @@ void display()
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  */
 
   glPushMatrix();
   drawScene(&test);
@@ -149,9 +155,12 @@ void display()
 }
 
 void
-pip()
+pip(int width, int height)
 {
-  glViewport(0, 0, 200, 200);
+  if(height > width)
+    glViewport(0, 0, 0.20 * width, 0.20 * width);
+  else
+    glViewport(0, 0, 0.20 * height, 0.20 * height);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
