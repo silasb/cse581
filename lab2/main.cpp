@@ -42,11 +42,24 @@ static void mMotion(int x, int y)
   const int dx = x - _mouseX;
   const int dy = y - _mouseY;
 
+  GLint viewport[4];
+  glGetIntegerv(GL_VIEWPORT, viewport);
+
   if(dx == 0 && dy == 0)
     return;
 
-  if(lButtonDown)
-    printf("moved to %i, %i\n", dx, dy);
+  if(lButtonDown) 
+  {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    glViewport(viewport[0] + dx, viewport[1] - dy, viewport[2], viewport[3]);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    
+    changed = true;
+  }
   else if(rButtonDown)
   {
     zoom += dy * 0.01;
@@ -127,6 +140,8 @@ void display()
   glPushMatrix();
   drawScene(&test);
   glPopMatrix();
+
+  glFlush();
 
   glutSwapBuffers();
 }
