@@ -14,6 +14,10 @@
 #include <GL/glut.h>
 #endif
 
+#ifdef _WIN32
+#define fscanf fscanf_s
+#endif
+
 bool scale_up = true;
 
 void loadPolygon(FILE **file, polygon_t *polygon, vertex_s *vList);
@@ -87,8 +91,10 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
 
   printf("nVertices: %i\n", polygon->nVertices);
 
+#ifdef __APPLE__
   // skip the space
   fseek(*file, 1, SEEK_CUR);
+#endif
 
   int i = 0;
   while(i < polygon->nVertices)
