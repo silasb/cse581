@@ -212,6 +212,11 @@ void skeyboard(int key, int x, int y)
   }
 }
 
+void idle(void)
+{
+  animate(&test);
+}
+
 int main(int argc, char** argv)
 {
 
@@ -239,6 +244,7 @@ int main(int argc, char** argv)
 
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
+  glutIdleFunc(idle);
 
   // events
   glutKeyboardFunc(keyboard);

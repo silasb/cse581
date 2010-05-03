@@ -12,6 +12,8 @@
 #include <GL/gl.h>
 #endif
 
+static float grow_rate = 0.001;
+
 typedef struct vertex_s
 {
   // 2d
@@ -41,6 +43,9 @@ typedef struct polygon_s
   char scale;
   int lRotate;
   int gRotate;
+  GLfloat scale_number;
+  bool clockwise;
+  GLfloat current_angle;
 } polygon_t;
 
 typedef struct model_s

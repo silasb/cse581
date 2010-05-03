@@ -8,6 +8,8 @@
 #include <GL/glut.h>
 #endif
 
+bool scale_up = true;
+
 void loadPolygon(FILE **file, polygon_t *polygon, vertex_s *vList);
 void getColorList(FILE *file, int nVertices, polygon_t *polygon);
 void drawPolygon(polygon_t *p);
@@ -136,9 +138,15 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
   printf("fill: %i\n", polygon->fill);
   printf("lWidth: %f\n", polygon->lWidth);
 
+  while((ch = fgetc(*file)) == 10)
+    ;
+  ungetc(ch, *file);
+
   fscanf(*file, "%c", &polygon->scale); // scale animation
   fscanf(*file, "%i", &polygon->lRotate); // local rotate
   fscanf(*file, "%i", &polygon->gRotate); // global rotate
+
+  polygon->scale_number = 1;
 }
 
 void getColorList(FILE *file, int nVertices, polygon_t *polygon)
@@ -172,6 +180,13 @@ void drawScene(scene_t *s)
 
 void drawPolygon(polygon_t *p)
 {
+  if(p->scale == 'y') 
+    glScalef(p->scale_number, p->scale_number, 0);
+  if(p->lRotate == 1 or p->lRotate == 2)
+    glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
+  if(p->gRotate == 1 or p->gRotate == 2)
+    glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
+
   if(p->fill)
     glBegin(GL_POLYGON);
   else {
@@ -185,4 +200,37 @@ void drawPolygon(polygon_t *p)
     glVertex2f(p->vList[i].x, p->vList[i].y);
   }
   glEnd();
+
+}
+
+void animate(scene_t *s)
+{
+  for(int i = 0; i < s->nPolygons; i++)
+  {
+    if(s->pList[i].scale == 'y') 
+    {
+      if(scale_up)
+        s->pList[i].scale_number += grow_rate;
+      else
+        s->pList[i].scale_number -= grow_rate;
+
+      if(s->pList[i].scale_number >= 2)
+        scale_up = false;
+      else if(s->pList[i].scale_number <= 0.5)
+        scale_up = true;
+      //glScalef(s->pList[i].scale_number,s->pList[i].scale_number, 0);
+      //drawPolygon(&s->pList[i]);
+    }
+
+    if(s->pList[i].lRotate == 1)
+      s->pList[i].current_angle -= grow_rate * 100;
+    else if(s->pList[i].lRotate == 2)
+      s->pList[i].current_angle += grow_rate * 100;
+
+    if(s->pList[i].gRotate == 1)
+      s->pList[i].current_angle -= grow_rate * 100;
+    else if(s->pList[i].gRotate == 2)
+      s->pList[i].current_angle += grow_rate * 100;
+  }
+  glutPostRedisplay();
 }

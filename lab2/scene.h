@@ -15,5 +15,6 @@ void loadScene(const char *, scene_t *);
 void freeScene(scene_t *);
 
 void drawScene(scene_t *s);
+void animate(scene_t *s);
 
 #endif
