@@ -50,13 +50,7 @@ static void mMotion(int x, int y)
 
   if(lButtonDown) 
   {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
     glViewport(viewport[0] + dx, viewport[1] - dy, viewport[2], viewport[3]);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
     
     changed = true;
   }
@@ -64,8 +58,6 @@ static void mMotion(int x, int y)
   {
     zoom += dy * 0.01;
 
-    int width = glutGet(GLUT_WINDOW_WIDTH);
-    int height = glutGet(GLUT_WINDOW_HEIGHT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
