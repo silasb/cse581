@@ -2,6 +2,12 @@
 #include <cstdio>
 #include <cstdlib>
 
+#if defined(_WIN32) || defined(__WIN32__)
+#include "windows.h"
+#else
+#include <unistd.h>
+#endif
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -116,13 +122,13 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
     fscanf(*file, "%c", &type);
 
     polygon->tList[i].type = type;
-    if(type == 't' or type == 's')
+    if(type == 't' || type == 's')
       fscanf(*file, "%f %f", &polygon->tList[i].x, &polygon->tList[i].y);
     else
       fscanf(*file, "%i", &polygon->tList[i].d);
 
     printf("trans type: %c -> ", polygon->tList[i].type);
-    if(type == 't' or type == 's')
+    if(type == 't' || type == 's')
       printf("(%f, %f)\n", polygon->tList[i].x, polygon->tList[i].y);
     else
       printf("%i\n", polygon->tList[i].d);
@@ -193,7 +199,7 @@ void drawPolygon(polygon_t *p)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  if(p->gRotate == 1 or p->gRotate == 2)
+  if(p->gRotate == 1 || p->gRotate == 2)
     glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
 
   for(int j = 0; j < p->nTrans; j++)
@@ -208,7 +214,7 @@ void drawPolygon(polygon_t *p)
 
   if(p->scale == 'y') 
     glScalef(p->scale_number, p->scale_number, 0);
-  if(p->lRotate == 1 or p->lRotate == 2)
+  if(p->lRotate == 1 || p->lRotate == 2)
     glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
 
   if(p->fill)

@@ -6,13 +6,19 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
+#if defined(_WIN32) || defined(__WIN32__)
+#include "windows.h"
+#else
+#include <unistd.h>
+#endif
+
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif
 
-static float grow_rate = 0.001;
+static double grow_rate = 0.001;
 
 typedef struct vertex_s
 {
