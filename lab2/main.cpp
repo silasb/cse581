@@ -32,7 +32,7 @@ static bool lButtonDown;
 static bool rButtonDown;
 static float zoom = 1;
 
-bool enabled_pip = false;
+bool enabled_pip = true;
 GLint viewport[2];
 
 // window idenfitier
@@ -133,21 +133,8 @@ void display()
   }
 
   resize(width, height);
-  /*
-  glViewport(viewport[0], viewport[1], width, height);
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  glOrtho(-1 * zoom, 1 * zoom, -1 * zoom, 1 * zoom, -1, 1);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  */
-
-  glPushMatrix();
   drawScene(&test);
-  glPopMatrix();
 
   glFlush();
 
@@ -170,9 +157,7 @@ pip(int width, int height)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  glPushMatrix();
   drawScene(&test);
-  glPopMatrix();
 }
 
 void keyboard(unsigned char key, int x, int y)

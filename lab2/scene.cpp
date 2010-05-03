@@ -118,8 +118,16 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
       fscanf(*file, "%f %f", &polygon->tList[i].x, &polygon->tList[i].y);
     else
       fscanf(*file, "%i", &polygon->tList[i].d);
+
     printf("trans type: %c -> ", polygon->tList[i].type);
-    printf("%i\n", polygon->tList[i].d);
+    if(type == 't' or type == 's')
+      printf("(%f, %f)\n", polygon->tList[i].x, polygon->tList[i].y);
+    else
+      printf("%i\n", polygon->tList[i].d);
+
+    while((ch = fgetc(*file)) == 10)
+      ;
+    ungetc(ch, *file);
   }
 
   while((ch = fgetc(*file)) == 10)
@@ -180,11 +188,25 @@ void drawScene(scene_t *s)
 
 void drawPolygon(polygon_t *p)
 {
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  if(p->gRotate == 1 or p->gRotate == 2)
+    glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
+
+  for(int j = 0; j < p->nTrans; j++)
+  {
+    if(p->tList[j].type == 'r')
+      glRotatef(p->tList[j].d, 0.0f, 0.0f, 1.0f);
+    else if(p->tList[j].type == 't')
+      glTranslatef(p->tList[j].x, p->tList[j].y, 0);
+    else if(p->tList[j].type == 's')
+      glScalef(p->tList[j].x, p->tList[j].y, 0);
+  }
+
   if(p->scale == 'y') 
     glScalef(p->scale_number, p->scale_number, 0);
   if(p->lRotate == 1 or p->lRotate == 2)
-    glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
-  if(p->gRotate == 1 or p->gRotate == 2)
     glRotatef(p->current_angle, 0.0f, 0.0f, 1.0f);
 
   if(p->fill)
@@ -218,8 +240,6 @@ void animate(scene_t *s)
         scale_up = false;
       else if(s->pList[i].scale_number <= 0.5)
         scale_up = true;
-      //glScalef(s->pList[i].scale_number,s->pList[i].scale_number, 0);
-      //drawPolygon(&s->pList[i]);
     }
 
     if(s->pList[i].lRotate == 1)
