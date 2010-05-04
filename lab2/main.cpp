@@ -25,26 +25,25 @@
 #define WIDTH 512
 #define HEIGHT 512
 
-void pip(int, int);
 
 static int _mouseX = 0;
 static int _mouseY = 0;
 static bool lButtonDown;
 static bool rButtonDown;
 static float zoom = 1;
-
-// internal prototypes
-void exportPPM();
-
 bool enabled_pip = true;
 GLfloat viewport[2];
+scene_t scene;
 
 // window idenfitier
 static int win;
 
-scene_t test;
+// internal prototypes
+void exportPPM();
+void pip(int, int);
 
-static void mMotion(int x, int y)
+static void
+mMotion(int x, int y)
 {
   bool changed = false;
 
@@ -75,7 +74,8 @@ static void mMotion(int x, int y)
     glutPostRedisplay();
 }
 
-static void mButton(int button, int state, int x, int y)
+static void
+mButton(int button, int state, int x, int y)
 {
   _mouseX = x;
   _mouseY = y;
@@ -94,10 +94,9 @@ static void mButton(int button, int state, int x, int y)
       rButtonDown = false;
 }
 
-static void resize(int width, int height)
+static void
+resize(int width, int height)
 {
-  //const float ar = (float) width / (float) height;
-
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -105,23 +104,21 @@ static void resize(int width, int height)
     glViewport(0, height-width, width, width);
   else
     glViewport(0, 0, height, height);
-  //        left, right, bottom, top, near, far
-  //glOrtho(0,    width, height, 0,   0,    1  );
 
-  // this might be from left to right (0 to width)
-  // and bottom to top (0 to height)
   glOrtho(-1, 1, -1, 1, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
 
-void reshape(GLsizei width, GLsizei height)
+void
+reshape(GLsizei width, GLsizei height)
 {
   glutReshapeWindow(width, height);
 }
 
-void display()
+void
+display()
 {
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -144,7 +141,7 @@ void display()
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  drawScene(&test);
+  drawScene(&scene);
 
   glFlush();
 
@@ -167,10 +164,11 @@ pip(int width, int height)
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  drawScene(&test);
+  drawScene(&scene);
 }
 
-void keyboard(unsigned char key, int x, int y)
+void
+keyboard(unsigned char key, int x, int y)
 {
   switch(key)
   {
@@ -200,7 +198,8 @@ void keyboard(unsigned char key, int x, int y)
   }
 }
 
-void skeyboard(int key, int x, int y)
+void
+skeyboard(int key, int x, int y)
 {
   switch(key) {
     case GLUT_KEY_F1:
@@ -209,14 +208,15 @@ void skeyboard(int key, int x, int y)
   }
 }
 
-void idle(void)
+void
+idle(void)
 {
-  animate(&test);
+  animate(&scene);
 }
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
-
   if( argc < 2 )
   {
     fprintf(stderr, "You didn't specify enough arguments\n");
@@ -225,15 +225,7 @@ int main(int argc, char** argv)
 
   char *fileName = argv[1];
 
-  loadScene(fileName, &test);
-
-  //if(processFile(fileName))
-  /*
-  {
-    fprintf(stderr, "Error processing file\n");
-    exit(1);
-  }
-  */
+  loadScene(fileName, &scene);
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
@@ -252,12 +244,13 @@ int main(int argc, char** argv)
 
   glutMainLoop();
 
-  freeScene(&test);
+  freeScene(&scene);
 
   return 0;
 }
 
-void exportPPM()
+void
+exportPPM()
 {
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
