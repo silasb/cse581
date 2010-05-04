@@ -20,6 +20,7 @@
 #include <cmath>
 
 #include "scene.h"
+#include "ppm.h"
 
 #define WIDTH 512
 #define HEIGHT 512
@@ -171,6 +172,12 @@ void keyboard(unsigned char key, int x, int y)
   switch(key)
   {
     case 's':
+      int width = glutGet(GLUT_WINDOW_WIDTH);
+      int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+      unsigned char image[512 * 512 * 3];
+      glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &image);
+      PPMWriteImage(image, width, height);
       break;
     case 'j':
       reshape(256, 256);
