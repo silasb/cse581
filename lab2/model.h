@@ -8,8 +8,6 @@
 
 #if defined(_WIN32) || defined(__WIN32__)
 #include "windows.h"
-#else
-#include <unistd.h>
 #endif
 
 #ifdef __APPLE__
@@ -58,18 +56,5 @@ typedef struct polygon_s
   bool clockwise;
   GLfloat l_angle, g_angle;
 } polygon_t;
-
-typedef struct model_s
-{
-  int nPolygons;
-  polygon_t *pList;
-} model_t;
-
-//extern model_t sampleModel;
-
-//void drawPolygon(polygon_t *p);
-
-//void loadModel(const char *, model_t *);
-//void freeModel(model_t *);
 
 #endif

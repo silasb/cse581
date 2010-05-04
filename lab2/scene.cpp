@@ -31,7 +31,8 @@ int length_vect(vector_t *v);
 int dot(vector_t *v1, vector_t *v2);
 vector_t cross(vector_t *v1, vector_t *v2);
 
-void loadScene(const char *fileName, scene_t *scene)
+void
+loadScene(const char *fileName, scene_t *scene)
 {
   printf("Opening: %s\n", fileName);
 
@@ -69,11 +70,13 @@ void loadScene(const char *fileName, scene_t *scene)
     {
       loadPolygon(&file, &scene->pList[i], scene->vList);
 
+#ifdef __DEBUG__
       printf("polygon[%i]", i);
       for(int j = 0; j < scene->pList[i].nVertices; j++)
       {
         printf(" (%f, %f)\n", scene->pList[i].vList[j].x, scene->pList[i].vList[j].y);
       }
+#endif
     }
   }
   else
@@ -83,22 +86,34 @@ void loadScene(const char *fileName, scene_t *scene)
 
 }
 
-void freeScene(scene_t *scene)
+void
+freeScene(scene_t *scene)
 {
-  if( scene->vList)
+  if(scene->vList)
   {
     free(scene->vList);
+    for(int i = 0; i < scene->nPolygons; i++)
+    {
+      free(scene->pList[i].vList);
+      scene->pList[i].vList = NULL;
+      free(scene->pList[i].tList);
+      scene->pList[i].tList = NULL;
+    }
+    scene->pList = NULL;
     scene->vList = NULL;
   }
 }
 
-void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
+void
+loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
 {
   fscanf(*file, "%i", &polygon->nVertices);
 
   polygon->vList = (vertex_t *)malloc(polygon->nVertices * sizeof(vertex_t));
 
+#ifdef __DEBUG__
   printf("nVertices: %i\n", polygon->nVertices);
+#endif
 
 #ifdef __APPLE__
   // skip the space
@@ -122,7 +137,9 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
   getColorList(*file, polygon->nVertices, polygon);
 
   fscanf(*file, "%i", &polygon->nTrans);
+#ifdef __DEBUG__
   printf("nTrans: %i\n", polygon->nTrans);
+#endif
 
   polygon->tList = (trans_t*)malloc(polygon->nTrans * sizeof(trans_t));
 
@@ -142,11 +159,13 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
     else
       fscanf(*file, "%i", &polygon->tList[i].d);
 
+#ifdef __DEBUG__
     printf("trans type: %c -> ", polygon->tList[i].type);
     if(type == 't' || type == 's')
       printf("(%f, %f)\n", polygon->tList[i].x, polygon->tList[i].y);
     else
       printf("%i\n", polygon->tList[i].d);
+#endif
 
     while((ch = fgetc(*file)) == 10)
       ;
@@ -166,8 +185,10 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
   else
     polygon->fill = true;
 
+#ifdef __DEBUG__
   printf("fill: %i\n", polygon->fill);
   printf("lWidth: %f\n", polygon->lWidth);
+#endif
 
   while((ch = fgetc(*file)) == 10)
     ;
@@ -180,7 +201,8 @@ void loadPolygon(FILE **file, polygon_t *polygon, vertex_t *vList)
   polygon->scale_number = 1;
 }
 
-void getColorList(FILE *file, int nVertices, polygon_t *polygon)
+void
+getColorList(FILE *file, int nVertices, polygon_t *polygon)
 {
   for(int i = 0; i < nVertices; i++)
     fscanf(file, "%f %f %f", 
@@ -189,7 +211,8 @@ void getColorList(FILE *file, int nVertices, polygon_t *polygon)
         &polygon->vList[i].b);
 }
 
-void drawScene(scene_t *s)
+void
+drawScene(scene_t *s)
 {
   for(int i = 0; i < s->nPolygons; i++)
   {
@@ -209,7 +232,8 @@ void drawScene(scene_t *s)
  */
 
 
-void drawPolygon(polygon_t *p)
+void
+drawPolygon(polygon_t *p)
 {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -251,7 +275,8 @@ void drawPolygon(polygon_t *p)
 
 }
 
-void animate(scene_t *s)
+void
+animate(scene_t *s)
 {
   for(int i = 0; i < s->nPolygons; i++)
   {
@@ -281,7 +306,8 @@ void animate(scene_t *s)
   glutPostRedisplay();
 }
 
-void check_format(int nVertices, vertex_t *vList)
+void
+check_format(int nVertices, vertex_t *vList)
 {
   for(int i = 1; i < nVertices - 1; i++)
   {
