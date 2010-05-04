@@ -4,12 +4,13 @@ Author: "Silas Baronda":http://github.com/silasb
 
 h3. Instructions
 
-To use this template just open the @Makefile@ and add your sources to the @SOURCES@ variable.
+import all the files into visual studio then configure it how it was taught in class then proceed to compile and run the program
 
-So if you wanted to add a new file called @image.cpp@ then just append @image.cpp@ to the @SOURCES@
+h3. Running
+cd into the correct directory
+then run
 
-<pre>
-<code>
-SOURCES=main.cpp image.cpp
-</code>
-</pre>
+./lab2.exe <file_name>
+
+.h3 Functionality
+This lab does everything the provided lab2 manual states as specs.
