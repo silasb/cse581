@@ -28,6 +28,11 @@ typedef struct vertex_s
   GLfloat r, g, b;
 } vertex_t;
 
+typedef struct vector_s
+{
+  GLfloat x, y, z;
+} vector_t;
+
 typedef struct transformation_s
 {
   int type;

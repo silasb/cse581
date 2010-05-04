@@ -18,11 +18,18 @@
 #define fscanf fscanf_s
 #endif
 
+#include <cmath>
+
 bool scale_up = true;
 
 void loadPolygon(FILE **file, polygon_t *polygon, vertex_s *vList);
 void getColorList(FILE *file, int nVertices, polygon_t *polygon);
 void drawPolygon(polygon_t *p);
+void check_format(int nVertices, vertex_t *vList);
+vector_t norm_vect(vector_t *v);
+int length_vect(vector_t *v);
+int dot(vector_t *v1, vector_t *v2);
+vector_t cross(vector_t *v1, vector_t *v2);
 
 void loadScene(const char *fileName, scene_t *scene)
 {
@@ -50,6 +57,8 @@ void loadScene(const char *fileName, scene_t *scene)
           &scene->vList[i].x, 
           &scene->vList[i].y);
     }
+
+    check_format(scene->nVertices, scene->vList);
 
     // get number of polygons in scene
     fscanf(file, "%i", &scene->nPolygons);
@@ -270,4 +279,72 @@ void animate(scene_t *s)
       s->pList[i].g_angle += grow_rate * 100;
   }
   glutPostRedisplay();
+}
+
+void check_format(int nVertices, vertex_t *vList)
+{
+  for(int i = 1; i < nVertices - 1; i++)
+  {
+    vertex_t a = vList[i-1];
+    vertex_t b = vList[i];
+    vertex_t c;
+    if(i < nVertices - 1)
+      c = vList[i + 1];
+    else
+      c = vList[0];
+    vector_t vec1 = {c.x - b.x, c.y - b.y, 0};
+    vector_t vec2 = {a.x - b.x, a.y - b.y, 0};
+    vector_t normed_v1 = norm_vect(&vec1);
+    vector_t normed_v2 = norm_vect(&vec2);
+
+    if(dot(&normed_v1, &normed_v2) == -1)
+    {
+      fprintf(stderr, "Vertices are collinear\n");
+      exit(1);
+    }
+
+    vector_t vec3 = cross(&vec1, &vec2);
+    if(vec3.z < 0)
+    {
+      fprintf(stderr, "Polygon is either concave, clockwise, or intersecting\n");
+      exit(1);
+    }
+  }
+}
+
+/* Vector math */
+
+vector_t
+norm_vect(vector_t *v)
+{
+  int len = length_vect(v);
+  vector_t temp;
+  temp.x = v->x / len;
+  temp.y = v->y / len;
+  temp.z = v->z / len;
+  return temp;
+}
+
+int
+length_vect(vector_t *v)
+{
+  return sqrt(pow(v->x, 2) + pow(v->y, 2) + pow(v->z, 2));
+}
+
+int
+dot(vector_t *v1, vector_t *v2)
+{
+  return(v1->x * v2->x +
+         v1->y * v2->y +
+         v1->z * v2->z);
+}
+
+vector_t
+cross(vector_t *v1, vector_t *v2)
+{
+  vector_t temp;
+  temp.x = v1->y * v2->z - v1->z * v2->y;
+  temp.y = v1->z * v2->x - v1->x * v2->z;
+  temp.z = v1->x * v2->y - v1->y * v2->x;
+  return temp;
 }
