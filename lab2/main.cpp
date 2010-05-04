@@ -33,6 +33,9 @@ static bool lButtonDown;
 static bool rButtonDown;
 static float zoom = 1;
 
+// internal prototypes
+void exportPPM();
+
 bool enabled_pip = true;
 GLfloat viewport[2];
 
@@ -172,12 +175,7 @@ void keyboard(unsigned char key, int x, int y)
   switch(key)
   {
     case 's':
-      int width = glutGet(GLUT_WINDOW_WIDTH);
-      int height = glutGet(GLUT_WINDOW_HEIGHT);
-
-      unsigned char image[512 * 512 * 3];
-      glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &image);
-      PPMWriteImage(image, width, height);
+      exportPPM();
       break;
     case 'j':
       reshape(256, 256);
@@ -257,4 +255,14 @@ int main(int argc, char** argv)
   freeScene(&test);
 
   return 0;
+}
+
+void exportPPM()
+{
+  int width = glutGet(GLUT_WINDOW_WIDTH);
+  int height = glutGet(GLUT_WINDOW_HEIGHT);
+  unsigned char *image = (unsigned char *)malloc(height * width * 3 * sizeof(unsigned char *));
+  //unsigned char image[width * height * 3];
+  glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image);
+  PPMWriteImage(image, width, height);
 }
