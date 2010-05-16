@@ -1,0 +1,15 @@
+h2. Readme
+
+Author: "Silas Baronda":http://github.com/silasb
+
+h3. Instructions
+
+To use this template just open the @Makefile@ and add your sources to the @SOURCES@ variable.
+
+So if you wanted to add a new file called @image.cpp@ then just append @image.cpp@ to the @SOURCES@
+
+<pre>
+<code>
+SOURCES=main.cpp image.cpp
+</code>
+</pre>
