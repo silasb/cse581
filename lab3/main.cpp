@@ -18,63 +18,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define WIDTH 512
-#define HEIGHT 512
-#define NFRAMES 48
+#include "common.h"
+#include "events.h"
+#include "drawing.h"
 
-// window idenfitier
-static int win;
-
-void display()
-{
-  glClear(GL_COLOR_BUFFER_BIT);
-  
-  glFlush();
-}
-
-void mouse(int button, int state, int x, int y)
-{
-  if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-  {
-  }
-}
-
-void keyboard(unsigned char key, int x, int y)
-{
-  switch(key)
-  {
-    case 's':
-      break;
-    case 'd':
-      break;
-    case 'f':
-      break;
-    case 'q':
-      glutDestroyWindow(win);
-      exit(0);
-  }
-}
-
-void skeyboard(int key, int x, int y)
-{
-  switch(key) {
-    case GLUT_KEY_F1:
-      printf("HIT F1 key\n");
-      break;
-  }
-}
+void initGL();
 
 int main(int argc, char** argv)
 {
   glutInit(&argc, argv);
-  glutInitWindowSize(WIDTH, HEIGHT);
+  glutInitWindowSize(WIDTH, HEIGHT); // initially 512 x 512
   win = glutCreateWindow("lab3");
+
+  // callbacks
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
   glutSpecialFunc(skeyboard);
 
+  initGL();
+
   glutMainLoop();
 
   return 0;
+}
+
+void
+initGL() {
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+  glEnable(GL_DEPTH_TEST);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(60.0f, 1, 1.0f, 100.0f);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(3.0f, 2.0f, 3.0f, // cam pos
+            0.0f, 0.0f, 0.0f, // COI
+            0.0f, 1.0f, 1.0f); // UP
 }
