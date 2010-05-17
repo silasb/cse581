@@ -126,6 +126,8 @@ keyboard(unsigned char key, int x, int y)
       gluPerspective(60, 1, 1, 100);
       break;
     case 'w': // wireframe
+      wireframe = wireframe == true ? false : true;
+      glPolygonMode(GL_FRONT_AND_BACK, wireframe == true ? GL_LINE : GL_FILL);
       break;
     case 'a': // show location of coi
       if(pointer)

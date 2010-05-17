@@ -28,6 +28,8 @@ float eye[3];
 float coi[3];
 float up[3];
 
+bool wireframe=true;
+
 int main(int argc, char** argv)
 {
   glutInit(&argc, argv);
@@ -54,6 +56,8 @@ initGL() {
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   glEnable(GL_DEPTH_TEST);
+
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
