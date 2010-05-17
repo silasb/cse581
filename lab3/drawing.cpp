@@ -19,10 +19,6 @@ display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(60.0f*zoomFactor, 1, 1.0f, 100.0f);
-
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(eye[0], eye[1], eye[2],

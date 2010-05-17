@@ -115,11 +115,15 @@ keyboard(unsigned char key, int x, int y)
       printf("%f %f %f\n", up[0], up[1], up[2]);
       break;
     case 'o': // orthogonal projection
-      glMatrixMode(GL_MODELVIEW);
+      glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
+      //glOrtho(-12, 12, -12, 12, 1, 100);
       glOrtho(-50, 50, -50, 50, 1, 100);
       break;
     case 'p': // perspective projectection
+      glMatrixMode(GL_PROJECTION);
+      glLoadIdentity();
+      gluPerspective(60, 1, 1, 100);
       break;
     case 'w': // wireframe
       break;
