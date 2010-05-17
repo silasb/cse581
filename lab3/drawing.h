@@ -8,5 +8,6 @@ extern float coi[3];
 extern float  up[3];
 
 extern bool pointer;
+extern bool bounding_box;
 
 #endif

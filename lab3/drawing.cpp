@@ -8,9 +8,11 @@
 #include "drawing.h"
 
 bool pointer=false;
+bool bounding_box=false;
 
 void draw_floor();
 void draw_pointer();
+void draw_bounding_box();
 
 void display()
 {
@@ -26,12 +28,11 @@ void display()
             coi[0], coi[1], coi[2],
              up[0],  up[1],  up[2]);
 
-  glPushMatrix();
+  if(bounding_box)
+    draw_bounding_box();
 
-  if(pointer) {
+  if(pointer)
     draw_pointer();
-    glPopMatrix();
-  }
   draw_floor();
   
   glFlush();
@@ -40,12 +41,23 @@ void display()
 
 void draw_pointer()
 {
+  glPushMatrix();
   glTranslatef(coi[0], coi[1], coi[2]);
   glutWireCube(1.0f);
+  glPopMatrix();
+}
+
+void draw_bounding_box()
+{
+  glPushMatrix();
+  glTranslatef(0, 25, 0);
+  glutWireCube(50.0f);
+  glPopMatrix();
 }
 
 void draw_floor()
 {
+  glPushMatrix();
   glBegin(GL_QUADS);
   glColor3f(0,0,1);
   glVertex3f(-25, 0, 25);
@@ -56,5 +68,5 @@ void draw_floor()
   glColor3f(1,1,0);
   glVertex3f(-25, 0, -25);
   glEnd();
-  //glutWireCube(2.0f);
+  glPopMatrix();
 }

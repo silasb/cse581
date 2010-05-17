@@ -131,6 +131,10 @@ keyboard(unsigned char key, int x, int y)
     case 'x': // back face culling
       break;
     case 'c': // draw imaginary bounding box
+      if(bounding_box)
+        bounding_box=false;
+      else
+        bounding_box=true;
       break;
     case 'q': // quit
       glutDestroyWindow(win);
