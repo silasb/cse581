@@ -145,6 +145,7 @@ keyboard(unsigned char key, int x, int y)
       else
         bounding_box=true;
       break;
+    case 27:
     case 'q': // quit
       glutDestroyWindow(win);
       exit(0);
