@@ -1,15 +1,15 @@
 include config.mk
 
 EXE = lab3
-SRC = main.cpp events.cpp drawing.cpp
+SRC = main.cpp events.cpp drawing.cpp shared.cpp
 OBJ = $(SRC:.cpp=.o)
 
 $(EXE): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
 
-.cpp.o:
+.o:
 	@echo CC $<
-	$(CC) $(CFLAGS) -c $<
+	@$(CC) $(CFLAGS) -c $<
 
 clean:
 	rm -f ${OBJ} $(EXE)

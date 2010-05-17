@@ -1,6 +1,12 @@
-#ifndef _DRAWING_H_
-#define _DRAWING_H_
+#ifndef _DRAWING_H
+#define _DRAWING_H
 
 void display();
+
+extern float eye[3];
+extern float coi[3];
+extern float  up[3];
+
+extern bool pointer;
 
 #endif
