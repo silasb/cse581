@@ -25,10 +25,13 @@ keyboard(unsigned char key, int x, int y)
   switch(key)
   {
     case '1': // window 256 x 256
+      glutReshapeWindow(256, 256);
       break;
     case '2': // window 512 x 512
+      glutReshapeWindow(512, 512);
       break;
     case '3': // window 1024 x 1024
+      glutReshapeWindow(1024, 1024);
       break;
     case 's': // save to ppm
       break;

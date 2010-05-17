@@ -70,3 +70,27 @@ void draw_floor()
   glEnd();
   glPopMatrix();
 }
+
+void
+resize(int width, int height)
+{
+
+  if(height > width)
+    glViewport(0, height-width, width, width);
+  else
+    glViewport(0, 0, height, height);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(60.0f*zoomFactor, 1, 1.0f, 100.0f);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(eye[0], eye[1], eye[2],
+            coi[0], coi[1], coi[2],
+             up[0],  up[1],  up[2]);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+}

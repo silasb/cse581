@@ -37,6 +37,7 @@ int main(int argc, char** argv)
 
   // callbacks
   glutDisplayFunc(display);
+  glutReshapeFunc(resize);
   glutKeyboardFunc(keyboard);
   glutMouseFunc(mouse);
   glutSpecialFunc(skeyboard);
