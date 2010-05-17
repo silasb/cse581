@@ -14,7 +14,8 @@ void draw_floor();
 void draw_pointer();
 void draw_bounding_box();
 
-void display()
+void
+display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -39,7 +40,8 @@ void display()
   glutSwapBuffers();
 }
 
-void draw_pointer()
+void
+draw_pointer()
 {
   glPushMatrix();
   glTranslatef(coi[0], coi[1], coi[2]);
@@ -47,7 +49,8 @@ void draw_pointer()
   glPopMatrix();
 }
 
-void draw_bounding_box()
+void
+draw_bounding_box()
 {
   glPushMatrix();
   glTranslatef(0, 25, 0);
@@ -55,7 +58,8 @@ void draw_bounding_box()
   glPopMatrix();
 }
 
-void draw_floor()
+void
+draw_floor()
 {
   glPushMatrix();
   glBegin(GL_QUADS);
@@ -92,5 +96,4 @@ resize(int width, int height)
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
 }
