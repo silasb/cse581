@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "drawing.h"
+#include "events.h"
 
 bool pointer=false;
 bool bounding_box=false;
@@ -80,9 +81,7 @@ resize(int width, int height)
   else
     glViewport(0, 0, height, height);
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluPerspective(60.0f*zoomFactor, 1, 1.0f, 100.0f);
+  setup_projection_matrix();
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -92,4 +91,13 @@ resize(int width, int height)
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+}
+
+void
+setup_projection_matrix()
+{
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  gluPerspective(60/zoomFactor, 1, 1.0f, 100.0f);
 }

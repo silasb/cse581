@@ -41,7 +41,8 @@ int main(int argc, char** argv)
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutKeyboardFunc(keyboard);
-  glutMouseFunc(mouse);
+  glutMouseFunc(mButton);
+  glutMotionFunc(mMotion);
   glutSpecialFunc(skeyboard);
 
   initGL();

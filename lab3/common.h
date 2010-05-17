@@ -8,6 +8,4 @@
 // window idenfitier
 static int win;
 
-static float zoomFactor=1.0;
-
 #endif

@@ -5,19 +5,16 @@
 #endif
 #include <stdlib.h>
 #include <math.h>
-#include <stdio.h>
 
 #include "common.h"
 #include "drawing.h"
 #include "shared.h"
 
-void
-mouse(int button, int state, int x, int y)
-{
-  if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-  {
-  }
-}
+float zoomFactor=1.0;
+
+int mouseX = 0;
+int mouseY = 0;
+bool rButtonDown;
 
 void
 keyboard(unsigned char key, int x, int y)
@@ -104,7 +101,7 @@ keyboard(unsigned char key, int x, int y)
       vec3_t b;
       vec_mul_matrix(a, m, b);
       VectorCopy(up,b);
-      printf("%f %f %f\n", up[0], up[1], up[2]);
+      //printf("%f %f %f\n", up[0], up[1], up[2]);
       break;
     case ',': // rotate cam up-vector counter-clockwise 5 degrees
       vec_t m2[4][4];
@@ -112,7 +109,7 @@ keyboard(unsigned char key, int x, int y)
       vec3_t c;
       vec_mul_matrix(up, m, c);
       VectorCopy(up,c);
-      printf("%f %f %f\n", up[0], up[1], up[2]);
+      //printf("%f %f %f\n", up[0], up[1], up[2]);
       break;
     case 'o': // orthogonal projection
       glMatrixMode(GL_PROJECTION);
@@ -121,9 +118,7 @@ keyboard(unsigned char key, int x, int y)
       glOrtho(-50, 50, -50, 50, 1, 100);
       break;
     case 'p': // perspective projectection
-      glMatrixMode(GL_PROJECTION);
-      glLoadIdentity();
-      gluPerspective(60, 1, 1, 100);
+      setup_projection_matrix();
       break;
     case 'w': // wireframe
       wireframe = wireframe == true ? false : true;
@@ -159,5 +154,47 @@ skeyboard(int key, int x, int y)
   switch(key) {
     case GLUT_KEY_F1:
       break;
+  }
+}
+
+void
+mButton(int button, int state, int x, int y)
+{
+  mouseX = x;
+  mouseY = y;
+
+  if(button == GLUT_RIGHT_BUTTON)
+    if(state == GLUT_DOWN)
+      rButtonDown = true;
+    else
+      rButtonDown = false;
+}
+
+void
+mMotion(int x, int y)
+{
+  bool changed = true;
+
+  int dx = x - mouseX;
+  int dy = y - mouseY;
+
+  if(dx == 0 && dy == 0)
+    return;
+
+  if(rButtonDown)
+  {
+    if(abs(dy) > abs(dx)) {
+      zoomFactor -= dy/100.0;
+      if(zoomFactor < 0.5) zoomFactor = 0.5;
+    }
+    changed = true;
+  }
+
+  mouseX = x;
+  mouseY = y;
+
+  if(changed) {
+    setup_projection_matrix();
+    glutPostRedisplay();
   }
 }

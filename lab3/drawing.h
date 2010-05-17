@@ -3,6 +3,7 @@
 
 void display();
 void resize(int width, int height);
+void setup_projection_matrix();
 
 extern float eye[3];
 extern float coi[3];
