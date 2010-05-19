@@ -6,6 +6,7 @@
 void display();
 void resize(int width, int height);
 void setup_projection_matrix();
+void exportPPM(void);
 
 float eye[3];
 float coi[3];

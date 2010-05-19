@@ -35,6 +35,7 @@ keyboard(unsigned char key, int x, int y)
       glutReshapeWindow(1024, 1024);
       break;
     case 's': // save to ppm
+      exportPPM();
       break;
     case '5':
       // eye loc (25, 25, 0)

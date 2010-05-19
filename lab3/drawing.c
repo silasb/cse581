@@ -8,9 +8,13 @@
 #include "drawing.h"
 #include "events.h"
 
+#include <stdlib.h>
+
 void draw_floor();
 void draw_pointer();
 void draw_bounding_box();
+
+void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
 
 void
 display()
@@ -97,4 +101,14 @@ setup_projection_matrix()
   glLoadIdentity();
 
   gluPerspective(60/zoomFactor, 1, 1.0f, 100.0f);
+}
+
+void
+exportPPM(void)
+{
+  int width = glutGet(GLUT_WINDOW_WIDTH);
+  int height = glutGet(GLUT_WINDOW_HEIGHT);
+  unsigned char *image = (unsigned char *)malloc(width * height * 3 * sizeof(unsigned char *));
+  glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image);
+  PPMWriteImage(image, width, height);
 }

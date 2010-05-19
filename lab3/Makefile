@@ -1,7 +1,7 @@
 include config.mk
 
 EXE = lab3
-SRC = main.c events.c drawing.c shared.c
+SRC = main.c events.c drawing.c shared.c ppm.c
 OBJ = $(SRC:.c=.o)
 
 $(EXE): $(OBJ)
