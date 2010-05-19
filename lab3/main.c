@@ -24,11 +24,11 @@
 
 void initGL();
 
-float eye[3];
-float coi[3];
-float up[3];
+//float eye[3];
+//float coi[3];
+//float up[3];
 
-bool wireframe=true;
+//bool_t wireframe=true;
 
 int main(int argc, char** argv)
 {

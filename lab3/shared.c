@@ -1,12 +1,12 @@
-#include "shared.h"
 #include <math.h>
+#include "shared.h"
 
 void
 rotate(int axis, float angle, vec_t m[][4]) // axis = 1 => x-axis
 {
-  int i,j;
-  for(int k = 0; k < 4; k++)
-    for(int l = 0; l < 4; l++)
+  int i,j, k, l;
+  for(k = 0; k < 4; k++)
+    for(l = 0; l < 4; l++)
       m[k][l] = 0;
   float c, s;
 

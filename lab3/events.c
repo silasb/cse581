@@ -8,13 +8,14 @@
 
 #include "common.h"
 #include "drawing.h"
-#include "shared.h"
+
+vec_t hello;
 
 float zoomFactor=1.0;
 
 int mouseX = 0;
 int mouseY = 0;
-bool rButtonDown;
+bool_t rButtonDown;
 
 void
 keyboard(unsigned char key, int x, int y)
@@ -94,7 +95,8 @@ keyboard(unsigned char key, int x, int y)
       break;
     case 'n': // move eye and coi down 5, if no bound restrictions
       break;
-    case '.': // rotate cam up-vector clockwise 5 degrees
+    case '.': 
+      {
       vec_t m[4][4];
       rotate(1, 5, m);
       vec3_t a; a[0] = 0; a[1] = 1; a[2] = 0;
@@ -102,14 +104,17 @@ keyboard(unsigned char key, int x, int y)
       vec_mul_matrix(a, m, b);
       VectorCopy(up,b);
       //printf("%f %f %f\n", up[0], up[1], up[2]);
+      }
       break;
     case ',': // rotate cam up-vector counter-clockwise 5 degrees
+      {
       vec_t m2[4][4];
       rotate(1, -5, m2);
       vec3_t c;
-      vec_mul_matrix(up, m, c);
+      vec_mul_matrix(up, m2, c);
       VectorCopy(up,c);
       //printf("%f %f %f\n", up[0], up[1], up[2]);
+      }
       break;
     case 'o': // orthogonal projection
       glMatrixMode(GL_PROJECTION);
@@ -164,16 +169,18 @@ mButton(int button, int state, int x, int y)
   mouseY = y;
 
   if(button == GLUT_RIGHT_BUTTON)
+  {
     if(state == GLUT_DOWN)
       rButtonDown = true;
     else
       rButtonDown = false;
+  }
 }
 
 void
 mMotion(int x, int y)
 {
-  bool changed = true;
+  bool_t changed = true;
 
   int dx = x - mouseX;
   int dy = y - mouseY;

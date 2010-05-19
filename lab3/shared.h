@@ -4,6 +4,8 @@
 typedef float vec_t;
 typedef vec_t vec3_t[3];
 
+typedef enum {false, true} bool_t;
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif

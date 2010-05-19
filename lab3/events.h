@@ -6,6 +6,6 @@ void skeyboard(int key, int x, int y);
 void mButton(int button, int state, int x, int y);
 void mMotion(int x, int y);
 
-extern float zoomFactor;
+float zoomFactor;
 
 #endif

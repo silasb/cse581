@@ -8,8 +8,8 @@
 #include "drawing.h"
 #include "events.h"
 
-bool pointer=false;
-bool bounding_box=false;
+bool_t pointer=false;
+bool_t bounding_box=false;
 
 void draw_floor();
 void draw_pointer();
