@@ -139,7 +139,7 @@ keyboard(unsigned char key, int x, int y)
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
       //glOrtho(-12, 12, -12, 12, 1, 100);
-      glOrtho(-50, 50, -50, 50, 1, 100);
+      glOrtho(-26, 26, -26, 26, 1, 100);
       break;
     case 'p': // perspective projectection
       setup_projection_matrix();
