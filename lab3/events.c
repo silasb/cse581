@@ -9,8 +9,6 @@
 #include "common.h"
 #include "drawing.h"
 
-vec_t hello;
-
 float zoomFactor=1.0;
 
 int mouseX = 0;

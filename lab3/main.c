@@ -22,13 +22,11 @@
 #include "events.h"
 #include "drawing.h"
 
+bool_t pointer=false;
+bool_t bounding_box=false;
+bool_t wireframe=true;
+
 void initGL();
-
-//float eye[3];
-//float coi[3];
-//float up[3];
-
-//bool_t wireframe=true;
 
 int main(int argc, char** argv)
 {
