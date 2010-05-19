@@ -17,6 +17,8 @@ int mouseX = 0;
 int mouseY = 0;
 bool_t rButtonDown;
 
+int rAng = 0;
+
 void
 keyboard(unsigned char key, int x, int y)
 {
@@ -95,26 +97,15 @@ keyboard(unsigned char key, int x, int y)
       break;
     case 'n': // move eye and coi down 5, if no bound restrictions
       break;
-    case '.': 
-      {
-      vec_t m[4][4];
-      rotate(1, 5, m);
-      vec3_t a; a[0] = 0; a[1] = 1; a[2] = 0;
-      vec3_t b;
-      vec_mul_matrix(a, m, b);
-      VectorCopy(up,b);
-      //printf("%f %f %f\n", up[0], up[1], up[2]);
-      }
+    case '.': // rotate cam up-vector clockwise 5 degrees
+      rAng += 5;
+      up[1] = cos(rAng * M_PI*2/360);
+      up[0] = sin(rAng * M_PI*2/360);
       break;
     case ',': // rotate cam up-vector counter-clockwise 5 degrees
-      {
-      vec_t m2[4][4];
-      rotate(1, -5, m2);
-      vec3_t c;
-      vec_mul_matrix(up, m2, c);
-      VectorCopy(up,c);
-      //printf("%f %f %f\n", up[0], up[1], up[2]);
-      }
+      rAng -= 5;
+      up[1] = cos(rAng * M_PI*2/360);
+      up[0] = sin(rAng * M_PI*2/360);
       break;
     case 'o': // orthogonal projection
       glMatrixMode(GL_PROJECTION);
