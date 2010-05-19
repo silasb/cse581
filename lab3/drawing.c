@@ -111,4 +111,5 @@ exportPPM(void)
   unsigned char *image = (unsigned char *)malloc(width * height * 3 * sizeof(unsigned char *));
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image);
   PPMWriteImage(image, width, height);
+  free(image);
 }
