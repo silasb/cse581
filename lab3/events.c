@@ -101,20 +101,28 @@ keyboard(unsigned char key, int x, int y)
       coi[1] -= 5;
       break;
     case 'b': // move eye and coi left 5, if no bound restrictions
-      if((coi[0] != -25 && eye[0] != -25)) {
-        coi[0] -= 5;
-        eye[0] -= 5;
+      if((coi[0 + face] != -25 * flip && eye[0 + face] != -25 * flip)) {
+        coi[0 + face] -= flip * 5;
+        eye[0 + face] -= flip * 5;
       }  
       break;
     case 'm': // move eye and coi right 5, if no bound restrictions
-      if((coi[0] != 25 && eye[0] != 25)) {
-        coi[0] += 5;
-        eye[0] += 5;
+      if((coi[0 + face] != 25 * flip && eye[0 + face] != 25 * flip)) {
+        coi[0 + face] += flip * 5;
+        eye[0 + face] += flip * 5;
       }  
       break;
     case 'h': // move eye and coi up 5, if no bound restrictions
+      if((coi[1] != 50 && eye[1] != 50)) {
+        coi[1] += 5;
+        eye[1] += 5;
+      }
       break;
     case 'n': // move eye and coi down 5, if no bound restrictions
+      if((coi[1] != 0 && eye[1] != 0)) {
+        coi[1] -= 5;
+        eye[1] -= 5;
+      }
       break;
     case '.': // rotate cam up-vector clockwise 5 degrees
       rAng += 5;
