@@ -17,6 +17,9 @@ bool_t rButtonDown;
 
 int rAng = 0;
 
+int face=0;
+int flip=1;
+
 void
 keyboard(unsigned char key, int x, int y)
 {
@@ -38,32 +41,40 @@ keyboard(unsigned char key, int x, int y)
       // coi (-25, 25, 0)
       eye[0] = 25.0f; eye[1] = 25.0f; eye[2] = 0.0f;
       coi[0] = -25.0f; coi[1] = 25.0f; coi[2] = 0.0f;
+      face=2;
+      flip=-1;
       break;
     case '6':
       // eye loc (0, 25, 25)
       // coi (0, 25, -25)
       eye[0] = 0.0f; eye[1] = 25.0f; eye[2] = 25.0f;
       coi[0] = 0.0f; coi[1] = 25.0f; coi[2] = -25.0f;
+      face=0;
+      flip=1;
       break;
     case '7':
       // eye loc (-25, 25, 0)
       // coi (25, 25, 0)
       eye[0] = -25.0f; eye[1] = 25.0f; eye[2] = 0.0f;
       coi[0] = 25.0f; coi[1] = 25.0f; coi[2] = 0.0f;
+      face=2;
+      flip=1;
       break;
     case '8':
       // eye loc (0, 25, -25)
       // coi (0, 25, 25)
       eye[0] = 0.0f; eye[1] = 25.0f; eye[2] = -25.0f;
       coi[0] = 0.0f; coi[1] = 25.0f; coi[2] = 25.0f;
+      face=0;
+      flip=-1;
       break;
     case 'd': // cam left 5
-      if(eye[0] != -25)
-        eye[0] -= 5;
+      if(eye[0 + face] != -25 * flip)
+        eye[0 + face] -= flip * 5;
       break;
     case 'g': // cam right 5
-      if(eye[0] != 25)
-        eye[0] += 5;
+      if(eye[0 + face] != 25 * flip)
+        eye[0 + face] += flip * 5;
       break;
     case 'r': // cam up 5
       if(eye[1] != 25)
@@ -74,22 +85,32 @@ keyboard(unsigned char key, int x, int y)
         eye[1] -= 5;
       break;
     case 'j': // coi left 5
-      if(coi[0] != -25)
-        coi[0] -= 5;
+      if(coi[0+face] != -25 * flip)
+        coi[0+face] -= flip * 5;
       break;
     case 'l': // coi right 5
-      if(coi[0] != 25)
-      coi[0] += 5;
+      if(coi[0+face] != 25 * flip)
+        coi[0+face] += flip * 5;
       break;
     case 'i': // coi up 5
-      coi[1] += 5;
+      if(coi[1] != 50)
+        coi[1] += 5;
       break;
     case 'k': // coi down 5 or along the ground plane
+      if(coi[1] != 0)
       coi[1] -= 5;
       break;
     case 'b': // move eye and coi left 5, if no bound restrictions
+      if((coi[0] != -25 && eye[0] != -25)) {
+        coi[0] -= 5;
+        eye[0] -= 5;
+      }  
       break;
     case 'm': // move eye and coi right 5, if no bound restrictions
+      if((coi[0] != 25 && eye[0] != 25)) {
+        coi[0] += 5;
+        eye[0] += 5;
+      }  
       break;
     case 'h': // move eye and coi up 5, if no bound restrictions
       break;
