@@ -1,3 +1,9 @@
+#if defined(_WIN32) || defined(__WIN32__)
+#include "windows.h"
+#else
+#include <unistd.h>
+#endif
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
