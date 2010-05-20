@@ -111,11 +111,13 @@ display()
   gluCylinder(obj1, 2, 3, 10, 10, 10);
   glPopMatrix();
 
+  glColor3f(1, 0.2, 0);
   glPushMatrix();
   glTranslatef(5, 15, 0);
   draw_octa();
   glPopMatrix();
 
+  glColor3f(0, 0.3, .2);
   glPushMatrix();
   glTranslatef(5, 15, -5);
   draw_tetra();
