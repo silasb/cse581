@@ -9,6 +9,11 @@
 #include "common.h"
 #include "drawing.h"
 
+#include <stdio.h>
+
+void moveDown();
+void moveUp();
+
 float zoomFactor=1.0;
 
 int mouseX = 0;
@@ -19,6 +24,7 @@ int rAng = 0;
 
 int face=0;
 int flip=1;
+bool_t bottom=true;
 
 void
 keyboard(unsigned char key, int x, int y)
@@ -94,12 +100,19 @@ keyboard(unsigned char key, int x, int y)
         coi[0+face] += flip * 5;
       break;
     case 'i': // coi up 5
-      if(coi[1] != 50)
+      if(coi[1] == 0)
+      {
+        moveUp();
+      } else if(coi[1] != 50)
         coi[1] += 5;
       break;
     case 'k': // coi down 5 or along the ground plane
-      if(coi[1] != 0)
-      coi[1] -= 5;
+      if(coi[1] == 0 && bottom)
+      {
+        moveDown();
+        bottom=true;
+      } else if(coi[1] != 0)
+        coi[1] -= 5;
       break;
     case 'b': // move eye and coi left 5, if no bound restrictions
       if((coi[0 + face] != -25 * flip && eye[0 + face] != -25 * flip)) {
@@ -170,6 +183,61 @@ keyboard(unsigned char key, int x, int y)
       exit(0);
   }
   glutPostRedisplay();
+}
+
+bool_t moveZ(int dir)
+{
+  if(coi[2] != 25 * dir)
+    coi[2] += 5 * dir;
+  else
+    return false;
+  return true;
+}
+bool_t moveX(int dir)
+{
+  if(coi[0] != 25 * dir)
+    coi[0] += 5 * dir;
+  else
+    return false;
+  return true;
+}
+
+void
+moveUp()
+{
+  if(face == 0 && flip == 1) {
+    if(!moveZ(-1))
+      coi[1] += 5;
+  }
+  else if(face == 0 && flip == -1) {
+    if(!moveZ(1))
+      coi[1] += 5;
+  }
+  else if(face == 2 && flip == 1) {
+    if(!moveX(1))
+      coi[1] += 5;
+  }
+  else if(face == 2 && flip == -1) {
+    if(!moveX(-1))
+      coi[1] += 5;
+  }
+}
+
+void
+moveDown()
+{
+  if(face == 0 && flip == 1) {
+    moveZ(1);
+  }
+  else if(face == 0 &&  flip == -1) {
+    moveZ(-1);
+  }
+  else if(face == 2 && flip == 1) {
+    moveX(-1);
+  }
+  else if(face == 2 && flip == -1) {
+    moveX(1);
+  }
 }
 
 void
