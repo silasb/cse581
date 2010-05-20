@@ -17,9 +17,8 @@ clean:
 dist: clean
 	@echo creating dist tarball
 	@mkdir -p ${EXE}-${AUTHOR}
-	@cp -R Makefile config.mk README.textile ${SRC} ${EXE}-${AUTHOR}
-	@tar -cf ${EXE}-${AUTHOR}.tar ${EXE}-${AUTHOR}
-	@gzip ${EXE}-${AUTHOR}.tar
+	@cp -R frame.ppm Makefile config.mk README.textile *.h ${SRC} ${EXE}-${AUTHOR}
+	@zip -r ${EXE}-${AUTHOR}.zip ${EXE}-${AUTHOR}
 	@rm -rf ${EXE}-${AUTHOR}
 
 .PHONY: clean dist
