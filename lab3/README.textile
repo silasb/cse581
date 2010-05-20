@@ -8,4 +8,7 @@ unzip file then `cd` into the directory make.
 
 Or if you are on windows just add all the files to a solution and build them.
 
+h3. Comments
 
+This was tested in the CSE lab only to get the windows stuff done.  The rest
+was done on a Mac and Linux platform.
