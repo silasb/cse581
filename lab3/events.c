@@ -35,6 +35,8 @@ int face=0;
 int flip=1;
 bool_t bottom=true;
 
+bool_t ortho=false;
+
 void
 keyboard(unsigned char key, int x, int y)
 {
@@ -158,13 +160,14 @@ keyboard(unsigned char key, int x, int y)
       up[0] = sin(rAng * M_PI*2/360);
       break;
     case 'o': // orthogonal projection
-      glMatrixMode(GL_PROJECTION);
-      glLoadIdentity();
-      //glOrtho(-12, 12, -12, 12, 1, 100);
-      glOrtho(-26, 26, -26, 26, 1, 100);
+      zoomFactor=1.0f;
+      setup_ortho_matrix();
+      ortho=true;
       break;
     case 'p': // perspective projectection
+      zoomFactor=1.0f;
       setup_projection_matrix();
+      ortho=false;
       break;
     case 'w': // wireframe
       wireframe = wireframe == true ? false : true;
@@ -303,7 +306,10 @@ mMotion(int x, int y)
   mouseY = y;
 
   if(changed) {
-    setup_projection_matrix();
+    if(ortho)
+      setup_ortho_matrix();
+    else
+      setup_projection_matrix();
     glutPostRedisplay();
   }
 }

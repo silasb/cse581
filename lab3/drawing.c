@@ -196,6 +196,15 @@ setup_projection_matrix()
 }
 
 void
+setup_ortho_matrix()
+{
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(-26 / zoomFactor, 26 / zoomFactor, -26 / zoomFactor, 
+          26 / zoomFactor, 1, 100);
+}
+
+void
 recorditem(GLfloat * n1, GLfloat * n2, GLfloat * n3)
 {
   glBegin(GL_LINE_LOOP);
