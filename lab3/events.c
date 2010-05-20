@@ -17,9 +17,11 @@
 
 #include <stdio.h>
 
+/* prototyps */
 void moveDown();
 void moveUp();
 
+/* global varibles */
 float zoomFactor=1.0;
 
 int mouseX = 0;

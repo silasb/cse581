@@ -17,12 +17,17 @@
 #include <stdlib.h>
 #include <math.h>
 
+/* prototypes */
 void draw_octa();
 void draw_tetra();
 
 void draw_floor();
 void draw_pointer();
 void draw_bounding_box();
+
+/*
+ * Data for drawing
+ */
 
 /* tetrahedron data */
 GLfloat tdata[4][3] =
@@ -62,7 +67,6 @@ int ondex[8][3] =
   {1, 3, 5}
 };
 
-
 void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
 
 void
@@ -82,17 +86,20 @@ display()
   if(pointer)
     draw_pointer();
 
+  /* draw teapot */
   glPushMatrix();
   glTranslatef(20, 5, 20);
   glutSolidTeapot(3);
   glPopMatrix();
 
+  /* draw sphere */
   glColor3f(1, 0, 1);
   glPushMatrix();
   glTranslatef(0, 5, 0);
   glutSolidSphere(5, 10, 10);
   glPopMatrix();
 
+  /* draw partial disk */
   glColor3f(0, 0.5, 1);
   glPushMatrix();
   glTranslatef(-10, 10, 0);
@@ -102,6 +109,7 @@ display()
   gluPartialDisk(obj1, 5, 11, 10, 10, 0, 240);
   glPopMatrix();
 
+  /* draw cylinder */
   glColor3f(0, 0.5, 1);
   glPushMatrix();
   glTranslatef(10, 10, 0);
@@ -111,18 +119,19 @@ display()
   gluCylinder(obj1, 2, 3, 10, 10, 10);
   glPopMatrix();
 
+  /* draw octa */
   glColor3f(1, 0.2, 0);
   glPushMatrix();
   glTranslatef(5, 15, 0);
   draw_octa();
   glPopMatrix();
 
+  /* draw tetra */
   glColor3f(0, 0.3, .2);
   glPushMatrix();
   glTranslatef(5, 15, -5);
   draw_tetra();
   glPopMatrix();
-
 
   draw_floor();
   
@@ -204,16 +213,18 @@ setup_ortho_matrix()
           26 / zoomFactor, 1, 100);
 }
 
+/* from GLUT */
 void
 recorditem(GLfloat * n1, GLfloat * n2, GLfloat * n3)
 {
-  glBegin(GL_LINE_LOOP);
+  glBegin(GL_TRIANGLE_FAN);
   glVertex3fv(n1);
   glVertex3fv(n2);
   glVertex3fv(n3);
   glEnd();
 }
 
+/* from GLUT */
 void
 subdivide(GLfloat * v0, GLfloat * v1, GLfloat * v2)
 {
@@ -248,6 +259,7 @@ subdivide(GLfloat * v0, GLfloat * v1, GLfloat * v2)
   }
 }
 
+/* from GLUT */
 void
 drawtriangle(int i, GLfloat data[][3], int ndx[][3])
 {
@@ -259,6 +271,7 @@ drawtriangle(int i, GLfloat data[][3], int ndx[][3])
   subdivide(x0, x1, x2);
 }
 
+/* from GLUT */
 void
 draw_octa()
 {
@@ -267,6 +280,7 @@ draw_octa()
     drawtriangle(i, odata, ondex);
 }
 
+/* from GLUT */
 void
 draw_tetra()
 {
@@ -275,6 +289,7 @@ draw_tetra()
     drawtriangle(i, tdata, tndex);
 }
 
+/* export PPM */
 void
 exportPPM(void)
 {

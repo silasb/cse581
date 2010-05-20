@@ -50,6 +50,7 @@ int main(int argc, char** argv)
   return 0;
 }
 
+/* opengl defaults */
 void
 initGL() {
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -59,6 +60,7 @@ initGL() {
 
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+  /* setup initial eye */
   eye[0] = 0.0f; eye[1] = 25.0f; eye[2] = 25.0f;
   coi[0] = 0.0f; coi[1] = 25.0f; coi[2] = -25.0f;
   up[0]  = 0.0f; up[1]  = 1.0f;  up[2]  = 0.0f;
