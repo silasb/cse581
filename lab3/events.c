@@ -29,6 +29,7 @@ bool_t rButtonDown;
 int rAng = 0;
 
 bool_t depth=true;
+bool_t culling=true;
 
 int face=0;
 int flip=1;
@@ -176,11 +177,14 @@ keyboard(unsigned char key, int x, int y)
         pointer=true;
       break;
     case 'z': // hidden surface removeal
-      depth = depth == true ? false: true;
+      depth = depth == true ? false : true;
       if(depth) glEnable(GL_DEPTH_TEST); 
       else glDisable(GL_DEPTH_TEST);
       break;
     case 'x': // back face culling
+      culling = culling == true ? false : true;
+      if(culling) glDisable(GL_CULL_FACE);
+      else glEnable(GL_CULL_FACE);
       break;
     case 'c': // draw imaginary bounding box
       if(bounding_box)
