@@ -4,12 +4,8 @@ Author: "Silas Baronda":http://github.com/silasb
 
 h3. Instructions
 
-To use this template just open the @Makefile@ and add your sources to the @SOURCES@ variable.
+unzip file then `cd` into the directory make.
 
-So if you wanted to add a new file called @image.cpp@ then just append @image.cpp@ to the @SOURCES@
+Or if you are on windows just add all the files to a solution and build them.
 
-<pre>
-<code>
-SOURCES=main.cpp image.cpp
-</code>
-</pre>
+
