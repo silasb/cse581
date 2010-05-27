@@ -7,6 +7,9 @@ OBJ = $(SRC:.c=.o)
 $(EXE): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
 
+trackball: trackball.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
 .o:
 	@echo CC $<
 	@$(CC) -c $<

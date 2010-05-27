@@ -26,6 +26,23 @@ keyboard(unsigned char key, int x, int y)
 {
   switch(key)
   {
+    // clipping plane
+    case 'a': // near clipping plane away from eye
+      break;
+    case 'z': // near clipping plane closer to eye
+      break;
+    case 'k': // far clipping plane away from eye
+      break;
+    case 'm': // move the far clipping plane closer to eye
+      break;
+      
+    // shading
+    case 'f': // flat shading
+      break;
+    case 'g': // gouraud shading
+      break;
+      
+    // general  
     case '1': // window 256 x 256
       glutReshapeWindow(256, 256);
       break;
@@ -52,6 +69,7 @@ keyboard(unsigned char key, int x, int y)
     case 'q': // quit
       glutDestroyWindow(win);
       exit(0);
+      
     default:
       printf("key not bound\n");
   }
