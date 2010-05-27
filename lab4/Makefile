@@ -3,6 +3,7 @@ include config.mk
 EXE = lab4
 SRC = main.c events.c drawing.c shared.c ppm.c
 OBJ = $(SRC:.c=.o)
+PACKAGED_FILES = $(SRC) Makefile config.mk README.textile *.h frame.ppm
 
 $(EXE): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
@@ -17,7 +18,7 @@ clean:
 dist: clean
 	@echo creating dist tarball
 	@mkdir -p ${EXE}-${AUTHOR}
-	@cp -R frame.ppm Makefile config.mk README.textile *.h ${SRC} ${EXE}-${AUTHOR}
+	@cp -R $(PACKAGED_FILES) ${EXE}-${AUTHOR}
 	@zip -r ${EXE}-${AUTHOR}.zip ${EXE}-${AUTHOR}
 	@rm -rf ${EXE}-${AUTHOR}
 
