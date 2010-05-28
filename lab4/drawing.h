@@ -10,5 +10,6 @@ void setup_ortho_matrix();
 void exportPPM(void);
 
 bool_t tGndTex;
+bool_t tFlatShd;
 
 #endif

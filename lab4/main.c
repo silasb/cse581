@@ -51,6 +51,13 @@ initGL() {
   glEnable(GL_DEPTH_TEST);
   glCullFace(GL_BACK);
 
+  GLfloat light_position[] = {-1.0, 1.0, -1.0, 1.0};
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+  glShadeModel(GL_FLAT);
+
   //glEnable(GL_TEXTURE_2D);
 
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

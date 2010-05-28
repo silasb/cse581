@@ -18,6 +18,7 @@
 #include <math.h>
 
 bool_t tGndTex=true;
+bool_t tFlatShd=true;
 
 /* prototypes */
 void draw_floor();
@@ -29,6 +30,11 @@ GLuint checkerBoard(int size);
 void
 display()
 {
+  if(tFlatShd)
+    glShadeModel(GL_FLAT);
+  else
+    glShadeModel(GL_SMOOTH);
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glMatrixMode(GL_MODELVIEW);

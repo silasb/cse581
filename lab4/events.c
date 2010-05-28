@@ -46,8 +46,10 @@ keyboard(unsigned char key, int x, int y)
       
     // shading
     case 'f': // flat shading
+      tFlatShd=true;
       break;
     case 'g': // gouraud shading
+      tFlatShd=false;
       break;
       
     // general  
