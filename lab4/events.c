@@ -20,7 +20,7 @@
 
 /* global varibles */
 GLfloat zoomFactor = 1;
-bool_t ortho=false;
+bool_t ortho=true;
 float trans[3];
 bool_t 	trackingMouse = false;
 
@@ -31,6 +31,10 @@ int startX, startY;
 void trackball_ptov(int x, int y, int width, int height, float v[3]);
 void stopMotion(int x, int y);
 void startMotion(int x, int y);
+
+int mouseX, mouseY;
+
+bool_t rButtonDown;
 
 void
 keyboard(unsigned char key, int x, int y)
@@ -121,38 +125,65 @@ mouseMotion(int x, int y)
 {
   float curPos[3], dx, dy, dz;
 
-  trackball_ptov(x, y, winWidth, winHeight, curPos);
-  if(trackingMouse)
-  {
-    dx = curPos[0] - lastPos[0];
-    dy = curPos[1] - lastPos[1];
-    dz = curPos[2] - lastPos[2];
+  bool_t changed=false;
 
-    if (dx || dy || dz) {
-      angle = 180.0 * sqrt(dx*dx + dy*dy + dz*dz)/M_PI;
+  int dxi = x - mouseX;
+  int dyi = y - mouseY;
+  if(dxi == 0 && dyi == 0)
+    return;
 
-      axis[0] = lastPos[1]*curPos[2] - lastPos[2]*curPos[1];
-      axis[1] = lastPos[2]*curPos[0] - lastPos[0]*curPos[2];
-      axis[2] = lastPos[0]*curPos[1] - lastPos[1]*curPos[0];
-
-      lastPos[0] = curPos[0];
-      lastPos[1] = curPos[1];
-      lastPos[2] = curPos[2];
+  if(rButtonDown) {
+    if(abs(dyi) > abs(dxi)) {
+      zoomFactor -= dyi/100.0;
+      if(zoomFactor < 0.5) zoomFactor=0.5;
     }
+    changed = true;
+    
+  } else {
 
-    glMatrixMode(GL_MODELVIEW);
-    GLfloat mod[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, mod);
+    trackball_ptov(x, y, winWidth, winHeight, curPos);
+    if(trackingMouse)
+    {
+      dx = curPos[0] - lastPos[0];
+      dy = curPos[1] - lastPos[1];
+      dz = curPos[2] - lastPos[2];
 
-    glLoadIdentity();
-    glRotatef(angle, axis[0], axis[1], axis[2]);
-    glMultMatrixf(mod);
-    glPushMatrix();
-    glGetFloatv(GL_MODELVIEW_MATRIX, mod);
+      if (dx || dy || dz) {
+        angle = 180.0 * sqrt(dx*dx + dy*dy + dz*dz)/M_PI;
 
-    glLoadIdentity();
-    glTranslatef(0, 0, -16);
-    glMultMatrixf(mod);
+        axis[0] = lastPos[1]*curPos[2] - lastPos[2]*curPos[1];
+        axis[1] = lastPos[2]*curPos[0] - lastPos[0]*curPos[2];
+        axis[2] = lastPos[0]*curPos[1] - lastPos[1]*curPos[0];
+
+        lastPos[0] = curPos[0];
+        lastPos[1] = curPos[1];
+        lastPos[2] = curPos[2];
+      }
+
+      glMatrixMode(GL_MODELVIEW);
+      GLfloat mod[16];
+      glGetFloatv(GL_MODELVIEW_MATRIX, mod);
+
+      glLoadIdentity();
+      glRotatef(angle, axis[0], axis[1], axis[2]);
+      glMultMatrixf(mod);
+      glPushMatrix();
+      glGetFloatv(GL_MODELVIEW_MATRIX, mod);
+
+      glLoadIdentity();
+      glTranslatef(0, 0, -16);
+      glMultMatrixf(mod);
+    }
+  }
+
+  mouseX = x;
+  mouseY = y;
+
+  if(changed) {
+    if(ortho)
+      setup_ortho_matrix();
+    else
+      setup_projection_matrix();
   }
   glutPostRedisplay();
 }
@@ -185,6 +216,9 @@ stopMotion(int x, int y)
 void
 mouseButton(int button, int state, int x, int y)
 {
+  mouseX = x;
+  mouseY = y;
+
   if(button==GLUT_LEFT_BUTTON) switch(state)
   {
     case GLUT_DOWN:
@@ -194,6 +228,11 @@ mouseButton(int button, int state, int x, int y)
       stopMotion( x,y);
       break;
   }
+  else if(button == GLUT_RIGHT_BUTTON)
+    if(state==GLUT_DOWN)
+      rButtonDown = true;
+    else
+      rButtonDown = false;
 }
 
 
