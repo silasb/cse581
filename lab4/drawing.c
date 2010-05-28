@@ -39,9 +39,12 @@ display()
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(0, 10, -25,
-            0, 0, 25,
+  gluLookAt(0, 10, 25, // pos
+            0, 0, -25,   // coi
             0,  1, 0);
+
+  GLfloat light_position[] = {-25.0, 10.0, 25.0, 1.0};
+  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
   /* draw teapot */
   glColor3f(1, 1, .2);
