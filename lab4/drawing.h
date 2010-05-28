@@ -11,5 +11,6 @@ void exportPPM(void);
 
 bool_t tGndTex;
 bool_t tFlatShd;
+bool_t tLinear;
 
 #endif

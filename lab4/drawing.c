@@ -19,6 +19,7 @@
 
 bool_t tGndTex=true;
 bool_t tFlatShd=true;
+bool_t tLinear=false;
 
 /* prototypes */
 void draw_floor();
@@ -144,7 +145,7 @@ exportPPM(void)
   free(image);
 }
 
-GLuint buildTexture(GLubyte *data, int wrap, int width, int height)
+GLuint buildTexture(GLubyte *data, int width, int height, int wrap)
 {
   GLuint texture;
 
@@ -154,14 +155,18 @@ GLuint buildTexture(GLubyte *data, int wrap, int width, int height)
   // select texture
   glBindTexture( GL_TEXTURE_2D, texture );
 
-  // mix texture with color for shading
-  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-  // when texture area is small, bilinear filter the closest mipmap
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                   GL_LINEAR_MIPMAP_NEAREST );
-  // when texture area is large, bilinear filter the first mipmap
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+  // mix texture with color for shading
+  //glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+  if(tLinear) {
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+  } else {
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  }
 
   // if wrap is true, the texture wraps over at the edges (repeat)
   //       ... false, the texture ends at the edges (clamp)
@@ -170,9 +175,7 @@ GLuint buildTexture(GLubyte *data, int wrap, int width, int height)
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
                    wrap ? GL_REPEAT : GL_CLAMP );
 
-  // build texture mipmaps
-  gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,
-                    GL_RGB, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
   return texture;
 }
@@ -184,7 +187,7 @@ GLuint loadTexture(const char *filename, int wrap)
   int width, height;
 
   PPMReadImage(filename, &image, &width, &height);
-  texture = buildTexture(image, wrap, width, height);
+  texture = buildTexture(image, width, height, wrap);
   free(image); // opengl has the image now
 
   return texture;
@@ -212,5 +215,6 @@ checkerBoard(int size)
       data[i][j][2] = (GLubyte) c;
     }
   }
-  return buildTexture(data, 0, size, size);
+
+  return buildTexture(data, size, size, 1);
 }

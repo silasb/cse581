@@ -33,6 +33,12 @@ keyboard(unsigned char key, int x, int y)
     case 'v':
       tGndTex=true;
       break;
+    case 'n':
+      tLinear=false;
+      break;
+    case 'b':
+      tLinear=true;
+      break;
 
     // clipping plane
     case 'a': // near clipping plane away from eye
