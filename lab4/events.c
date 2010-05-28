@@ -96,9 +96,6 @@ keyboard(unsigned char key, int x, int y)
     case 'q': // quit
       glutDestroyWindow(win);
       exit(0);
-      
-    default:
-      printf("key not bound\n");
   }
   glutPostRedisplay();
 }
