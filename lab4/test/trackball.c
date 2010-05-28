@@ -3,6 +3,7 @@
 /* Rotating cube demo with trackball*/
 
 #include <math.h>
+#include <stdlib.h>
 #include <GL/glut.h>
 
 #define bool int
@@ -103,7 +104,7 @@ mouseMotion(int x, int y)
       if (dx || dy || dz) {
 	      angle = 180.0 * sqrt(dx*dx + dy*dy + dz*dz)/M_PI;
 
-         axis[0] = lastPos[1]*curPos[2] - lastPos[2]*curPos[1];
+        axis[0] = lastPos[1]*curPos[2] - lastPos[2]*curPos[1];
 	      axis[1] = lastPos[2]*curPos[0] - lastPos[0]*curPos[2];
 	      axis[2] = lastPos[0]*curPos[1] - lastPos[1]*curPos[0];
 
@@ -111,7 +112,23 @@ mouseMotion(int x, int y)
 	      lastPos[1] = curPos[1];
 	      lastPos[2] = curPos[2];
       }
+
+     glMatrixMode(GL_MODELVIEW);
+     GLfloat curMvM[16];
+     glGetFloatv(GL_MODELVIEW_MATRIX,curMvM);
+        
+     glLoadIdentity();
+     glRotatef(angle, axis[0], axis[1], axis[2]);
+     glMultMatrixf(curMvM);
+     glPushMatrix();
+     glGetFloatv(GL_MODELVIEW_MATRIX,curMvM);
+    
+     glLoadIdentity();
+     glTranslatef(0, 0, 0);
+     glMultMatrixf(curMvM);
+
    } 
+
    glutPostRedisplay();
 }
 
@@ -184,7 +201,7 @@ void spinCube()
 }
 */
 
-void
+int
 main(int argc, char **argv)
 {
     glutInit(&argc, argv);
@@ -196,7 +213,7 @@ main(int argc, char **argv)
     //glutIdleFunc(spinCube);
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMotion);
-	 glEnable(GL_DEPTH_TEST); 
+	 glEnable(GL_DEPTH_TEST);
 	 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -205,5 +222,4 @@ main(int argc, char **argv)
     
     glutMainLoop();
 }
-
 

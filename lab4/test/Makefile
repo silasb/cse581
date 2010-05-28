@@ -4,6 +4,8 @@ EXE = test
 SRC = ppm_read.c ../ppm.c
 OBJ = $(SRC:.c=.o)
 
+all: test trackball
+
 $(EXE): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $@
 
