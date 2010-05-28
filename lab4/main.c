@@ -51,5 +51,7 @@ initGL() {
   glEnable(GL_DEPTH_TEST);
   glCullFace(GL_BACK);
 
-  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glEnable(GL_TEXTURE_2D);
+
+  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
