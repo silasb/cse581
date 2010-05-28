@@ -167,8 +167,9 @@ void display(void)
 	    glRotatef(angle, axis[0], axis[1], axis[2]);
    }
 	colorcube();
+  glPopMatrix();
 
-   glutSwapBuffers();
+  glutSwapBuffers();
 }
 
 /*----------------------------------------------------------------------*/

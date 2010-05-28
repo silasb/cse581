@@ -22,6 +22,8 @@
 #include "events.h"
 #include "drawing.h"
 
+GLuint gndTexture;
+
 void initGL();
 
 int main(int argc, char** argv)
@@ -35,8 +37,12 @@ int main(int argc, char** argv)
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutKeyboardFunc(keyboard);
+  glutMouseFunc(mouseButton);
+  glutMotionFunc(mouseMotion);
 
   initGL();
+
+  gndTexture = loadTexture("test/Untitled.ppm", 1);
 
   glutMainLoop();
 
@@ -51,12 +57,13 @@ initGL() {
   glEnable(GL_DEPTH_TEST);
   glCullFace(GL_BACK);
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-
+  // get proper shading
   glShadeModel(GL_FLAT);
 
-  //glEnable(GL_TEXTURE_2D);
+  // setup camera
+  setup_ortho_matrix();
 
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  // lighting
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
 }

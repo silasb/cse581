@@ -18,8 +18,8 @@
 #include <math.h>
 
 bool_t tGndTex=true;
-bool_t tFlatShd=true;
 bool_t tLinear=false;
+bool_t trackballMove=false;
 
 /* prototypes */
 void draw_floor();
@@ -31,25 +31,23 @@ GLuint checkerBoard(int size);
 void
 display()
 {
-  if(tFlatShd)
-    glShadeModel(GL_FLAT);
-  else
-    glShadeModel(GL_SMOOTH);
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  gluLookAt(0, 10, 25, // pos
-            0, 0, -25,   // coi
-            0,  1, 0);
+  if(trackballMove) {
+    glRotatef(angle, axis[0], axis[1], axis[2]);
+  }
 
-  GLfloat light_position[] = {-25.0, 10.0, 25.0, 1.0};
+  glPushMatrix();
+  GLfloat light_position[] = {0.0, 10.0, 0.0, 1.0};
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  glColor3f(1, 1, 1);
+  glTranslatef(0, 9.5, 0);
+  glutWireCube(0.5);
+  glPopMatrix();
 
   /* draw teapot */
-  glColor3f(1, 1, .2);
   glPushMatrix();
+  glColor3f(1, 1, 1);
   glTranslatef(0, 3, 0);
   glutSolidTeapot(3);
   glPopMatrix();
@@ -59,21 +57,21 @@ display()
   draw_floor();
   glDisable(GL_TEXTURE_2D);
 
-  
-  glFlush();
+  glPopMatrix();
+
   glutSwapBuffers();
 }
 
 void
 draw_floor()
 {
-  glColor3f(1, 1, 1);
   glPushMatrix();
+  glColor3f(1, 1, 1);
 
   GLuint texture;
 
   if(tGndTex)
-    texture = loadTexture("test/Untitled.ppm", 1);
+    texture = gndTexture;
   else
     texture = checkerBoard(64);
 
@@ -104,15 +102,8 @@ resize(int width, int height)
   else
     glViewport(0, 0, height, height);
 
-  setup_projection_matrix();
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  gluLookAt(0, 10, -25,
-            0, 0, 25,
-            0,  1, 0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
+  winWidth = width;
+  winHeight = height;
 }
 
 void
@@ -130,7 +121,8 @@ setup_ortho_matrix()
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(-26 / zoomFactor, 26 / zoomFactor, -26 / zoomFactor, 
-          26 / zoomFactor, 1, 100);
+          26 / zoomFactor, -100, 100);
+  glMatrixMode(GL_MODELVIEW);
 }
 
 /* export PPM */

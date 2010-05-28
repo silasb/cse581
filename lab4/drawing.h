@@ -10,7 +10,11 @@ void setup_ortho_matrix();
 void exportPPM(void);
 
 bool_t tGndTex;
-bool_t tFlatShd;
 bool_t tLinear;
+
+float angle, axis[3];
+bool_t trackballMove;
+
+GLuint gndTexture;
 
 #endif
