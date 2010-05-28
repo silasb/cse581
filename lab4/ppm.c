@@ -50,7 +50,10 @@ PPMReadImage(const char *filename, GLubyte **imgBuffer, int *width, int *height)
   int w, h;
   int max_color;
 
-  stream = fopen(filename, "rb");
+  if((stream = fopen(filename, "rb")) == NULL) {
+    fprintf(stderr, "Can't find file: %s\n", filename);
+    exit(0);
+  }
 
   fscanf(stream, "P%d\n", &magic_number);
   printf("magic number: %d\n", magic_number);
