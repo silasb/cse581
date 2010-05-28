@@ -17,13 +17,14 @@
 #include <stdlib.h>
 #include <math.h>
 
+bool_t tGndTex=true;
+
 /* prototypes */
 void draw_floor();
-
 void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
-void PPMReadImage(const char *, unsigned char *, int *, int *);
-
+void PPMReadImage(const char *, GLubyte **, int *, int *);
 GLuint loadTexture(const char *filename, int wrap);
+GLuint checkerBoard(int size);
 
 void
 display()
@@ -43,7 +44,11 @@ display()
   glutSolidTeapot(3);
   glPopMatrix();
 
+  glEnable(GL_TEXTURE_2D);
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
   draw_floor();
+  glDisable(GL_TEXTURE_2D);
+
   
   glFlush();
   glutSwapBuffers();
@@ -52,12 +57,17 @@ display()
 void
 draw_floor()
 {
-  glColor3f(.5, .5, 1);
+  glColor3f(1, 1, 1);
   glPushMatrix();
 
-  GLuint test = loadTexture("test/Untitled.ppm", 1);
+  GLuint texture;
 
-  glBindTexture(GL_TEXTURE_2D, test);
+  if(tGndTex)
+    texture = loadTexture("test/Untitled.ppm", 1);
+  else
+    texture = checkerBoard(64);
+
+  glBindTexture(GL_TEXTURE_2D, texture);
   glBegin(GL_QUADS);
   //glColor3f(0,0,1);
   glTexCoord2d(0, 0);
@@ -125,14 +135,10 @@ exportPPM(void)
   free(image);
 }
 
-GLuint loadTexture(const char *filename, int wrap)
+GLuint buildTexture(GLubyte *data, int wrap, int width, int height)
 {
   GLuint texture;
-  GLubyte *image;
-  int width, height;
 
-  PPMReadImage(filename, &image, &width, &height);
-  
   // alloc tex name
   glGenTextures(1, &texture);
 
@@ -157,10 +163,45 @@ GLuint loadTexture(const char *filename, int wrap)
 
   // build texture mipmaps
   gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,
-                    GL_RGB, GL_UNSIGNED_BYTE, image);
-
-  //glDrawPixels(w, h, GL_RGB, GL_UNSIGNED_BYTE, image);
-  free(image);
+                    GL_RGB, GL_UNSIGNED_BYTE, data);
 
   return texture;
+}
+
+GLuint loadTexture(const char *filename, int wrap)
+{
+  GLubyte *image;
+  GLuint texture;
+  int width, height;
+
+  PPMReadImage(filename, &image, &width, &height);
+  texture = buildTexture(image, wrap, width, height);
+  free(image); // opengl has the image now
+
+  return texture;
+}
+
+GLuint 
+checkerBoard(int size)
+{
+  //GLubyte *data;
+  int i, j, c;
+
+  //data = (GLubyte *) malloc(size * size * 3);
+
+  size = 64;
+  GLubyte data[64][64][3];
+
+  for(i = 0; i < size; i++) {
+    for(j = 0; j < size; j++) {
+      c = ((((i&0x8)==0)^((j&0x8))==0))*255;
+      //*(data+i + j + 0) = (GLubyte)c;
+      //*(data + i + j + 1) = (GLubyte)c;
+      //*(data+i+j+2) = (GLubyte)c;
+      data[i][j][0] = (GLubyte) c;
+      data[i][j][1] = (GLubyte) c;
+      data[i][j][2] = (GLubyte) c;
+    }
+  }
+  return buildTexture(data, 0, size, size);
 }

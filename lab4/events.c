@@ -26,6 +26,14 @@ keyboard(unsigned char key, int x, int y)
 {
   switch(key)
   {
+    // textures
+    case 'c':
+      tGndTex=false;
+      break;
+    case 'v':
+      tGndTex=true;
+      break;
+
     // clipping plane
     case 'a': // near clipping plane away from eye
       break;

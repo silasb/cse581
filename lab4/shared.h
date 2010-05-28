@@ -16,4 +16,15 @@ typedef enum {false, true} bool_t;
 void rotate(int, float, vec_t [][4]);
 void vec_mul_matrix(vec3_t, vec_t [4][4], vec3_t);
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
+typedef struct texture_s {
+  GLubyte *image;
+  int width, height;
+} texture_t;
+
 #endif
