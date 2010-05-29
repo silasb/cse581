@@ -57,12 +57,18 @@ keyboard(unsigned char key, int x, int y)
 
     // clipping plane
     case 'a': // near clipping plane away from eye
+      if(nearClip < farClip)
+        nearClip += 5;
       break;
     case 'z': // near clipping plane closer to eye
+      if(nearClip > -50)
+        nearClip -= 5;
       break;
     case 'k': // far clipping plane away from eye
+      farClip += 5;
       break;
     case 'm': // move the far clipping plane closer to eye
+      farClip -= 5;
       break;
       
     // shading

@@ -21,6 +21,9 @@ bool_t tGndTex=true;
 bool_t tLinear=false;
 bool_t trackballMove=false;
 
+int nearClip = -100;
+int farClip = 100;
+
 /* prototypes */
 void draw_floor();
 void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
@@ -32,6 +35,10 @@ void
 display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  if(ortho)
+    setup_ortho_matrix();
+  else
+    setup_projection_matrix();
 
   if(trackballMove) {
     glRotatef(angle, axis[0], axis[1], axis[2]);
@@ -121,7 +128,7 @@ setup_ortho_matrix()
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(-26 / zoomFactor, 26 / zoomFactor, -26 / zoomFactor, 
-          26 / zoomFactor, -100, 100);
+          26 / zoomFactor, nearClip, farClip);
   glMatrixMode(GL_MODELVIEW);
 }
 
