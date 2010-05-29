@@ -21,4 +21,6 @@ GLuint gndTexture;
 int nearClip, farClip;
 bool_t ortho;
 
+void loadMovie();
+
 #endif

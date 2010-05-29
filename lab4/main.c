@@ -44,6 +44,8 @@ int main(int argc, char** argv)
 
   gndTexture = loadTexture("test/Untitled.ppm", 1);
 
+  loadMovie();
+
   glutMainLoop();
 
   return 0;
