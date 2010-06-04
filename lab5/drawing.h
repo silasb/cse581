@@ -16,5 +16,6 @@ bool_t ortho;
 
 int gndTexture;
 int wallTex;
+int pictureTex;
 
 #endif

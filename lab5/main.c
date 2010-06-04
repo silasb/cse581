@@ -24,6 +24,7 @@
 
 extern int gndTexture;
 extern int wallTex;
+extern int pictureTex;
 
 void initGL();
 
@@ -44,6 +45,7 @@ int main(int argc, char** argv)
 
   gndTexture = loadTexture("data/tex1.ppm", 1);
   wallTex = loadTexture("data/tex2.ppm", 1);
+  pictureTex = loadTexture("data/cycle.ppm", 1);
 
   c = init_camera();
   set_camera_perspective(c);

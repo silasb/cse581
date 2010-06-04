@@ -123,6 +123,17 @@ display()
     glTexCoord2d(0, 1); glVertex3f(-25, 25, -25);
   glEnd();
 
+  glBindTexture(GL_TEXTURE_2D, pictureTex);
+  glPushMatrix();
+  glTranslatef(0, 5, 0);
+  glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex3f(-10, 0, -24.5);
+    glTexCoord2d(1, 0); glVertex3f(10, 0, -24.5);
+    glTexCoord2d(1, 1); glVertex3f(10, 10, -24.5);
+    glTexCoord2d(0, 1); glVertex3f(-10, 10, -24.5);
+  glEnd();
+  glPopMatrix();
+
   glPopMatrix();
 
   glDisable(GL_TEXTURE_2D);
