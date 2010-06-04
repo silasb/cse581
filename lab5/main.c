@@ -65,6 +65,6 @@ initGL() {
   //setup_ortho_matrix();
 
   // lighting
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
+  //glEnable(GL_LIGHTING);
+  //glEnable(GL_LIGHT0);
 }

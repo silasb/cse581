@@ -44,6 +44,8 @@ display()
   else
     setup_projection_matrix();
 
+  c->pos.x = 20;
+  c->pos.y = 20;
   set_camera_perspective(c);
 
   glPushMatrix();
@@ -56,14 +58,35 @@ display()
 
   entity_t e;
   obj_load("data/cube3.obj", &e);
-  glColor3f(1, 1, 0);
+  glColor3f(1, .5, 0);
   draw_entity(&e);
-   
-  /* draw teapot */
+
+  // animation
+  glColor3f(1, 0, 0);
   glPushMatrix();
-  glColor3f(1.0, 0.2, 0.2);
   glTranslatef(0, 3, 0);
-  glutSolidTeapot(3);
+  glutSolidCube(3);
+  glPopMatrix();
+
+  glColor3f(1, 1, 0);
+  glPushMatrix();
+  glTranslatef(0, 6, 0);
+  glRotatef(45, 0, 1, 0);
+  glutSolidCube(3);
+  glPopMatrix();
+
+  glColor3f(1, 1, 1);
+  glPushMatrix();
+  glTranslatef(0, 9, 0);
+  glRotatef(25, 0, -1, 0);
+  glutSolidCube(3);
+  glPopMatrix();
+
+  glColor3f(.5, .5, .5);
+  glPushMatrix();
+  glTranslatef(0, 12, 0);
+  glRotatef(15, 0, 1, 0);
+  glutSolidCube(3);
   glPopMatrix();
 
   glutSwapBuffers();
