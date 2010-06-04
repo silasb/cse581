@@ -1,0 +1,16 @@
+h2. Readme
+
+Author: "Silas Baronda":http://github.com/silasb
+
+h3. Instructions
+
+unzip file then `cd` into the directory make.
+
+Or if you are on windows just add all the files to a solution and build them.
+
+Problems
+For some reason why I compile on windows it just pops up a window with nothing in it.
+
+Both on linux and mac it works fine.
+
+
