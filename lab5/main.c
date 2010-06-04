@@ -37,14 +37,13 @@ int main(int argc, char** argv)
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutKeyboardFunc(keyboard);
-  glutMouseFunc(mouseButton);
-  glutMotionFunc(mouseMotion);
 
   initGL();
 
-  gndTexture = loadTexture("test/Untitled.ppm", 1);
+  //gndTexture = loadTexture("Untitled.ppm", 1);
 
-  loadMovie();
+  c = init_camera();
+  set_camera_perspective(c);
 
   glutMainLoop();
 
@@ -60,10 +59,10 @@ initGL() {
   glCullFace(GL_BACK);
 
   // get proper shading
-  glShadeModel(GL_FLAT);
+  glShadeModel(GL_SMOOTH);
 
   // setup camera
-  setup_ortho_matrix();
+  //setup_ortho_matrix();
 
   // lighting
   glEnable(GL_LIGHTING);
