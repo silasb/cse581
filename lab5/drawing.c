@@ -30,6 +30,10 @@ int movie[300];
 float rot = 0;
 
 extern camera_t *c;
+extern light_t *light0;
+extern light_t *light1;
+extern light_t *light2;
+extern light_t *light3;
 
 /* prototypes */
 void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
@@ -54,13 +58,38 @@ display()
   c->coi.z = 0;
   set_camera_perspective(c);
 
-  glPushMatrix();
-  GLfloat light_position[] = {0.0, 20.0, 10.0, 1.0};
-  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-  glColor3f(1, 1, 1);
-  glTranslatef(light_position[0], light_position[1], light_position[2]);
-  glutWireCube(0.5);
-  glPopMatrix();
+  /*
+   * Directional light source (w = 0)
+   * The light source is at an infinite distance,
+   * all the ray are parallel and have the direction (x, y, z).
+   */
+  light0->pos[0] = 1.0f;
+  light0->pos[1] = 1.0f;
+  light0->pos[2] = 0.0f;
+  light0->pos[3] = 0.0f;
+  //draw_light(light0);
+
+  /*
+   * Positional light source (w = 1)
+   * The light source is positioned at (x, y, z).
+   * The ray come from this particular location (x, y, z) and goes towards all directions.
+   */
+  light1->pos[0] = -2;
+  light1->pos[1] = 2;
+  light1->pos[2] = -5;
+  light1->pos[3] = 1;
+  //draw_light(light1);
+  
+  draw_light(light2);
+  //draw_light(light3);
+
+  //glPushMatrix();
+  //GLfloat light_position[] = {0.0, 20.0, 10.0, 1.0};
+  //glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+  //glColor3f(1, 1, 1);
+  //glTranslatef(light_position[0], light_position[1], light_position[2]);
+  //glutWireCube(0.5);
+  //glPopMatrix();
 
   /*
   entity_t e;
