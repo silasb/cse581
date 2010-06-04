@@ -64,26 +64,32 @@ display()
    * The light source is at an infinite distance,
    * all the ray are parallel and have the direction (x, y, z).
    */
-  light0->pos[0] = 1.0f;
-  light0->pos[1] = 1.0f;
-  light0->pos[2] = 0.0f;
-  light0->pos[3] = 0.0f;
-  //draw_light(light0);
+  draw_light(light0);
 
   /*
    * Positional light source (w = 1)
    * The light source is positioned at (x, y, z).
    * The ray come from this particular location (x, y, z) and goes towards all directions.
    */
-  light1->pos[0] = -2;
-  light1->pos[1] = 2;
-  light1->pos[2] = -5;
-  light1->pos[3] = 1;
-  //draw_light(light1);
+  draw_light(light1);
   
+  /*
+   * Spotlight
+   */
   draw_light(light2);
+
+  /*
+   * helmet cam
+   */
+  light3->pos[0] = c->pos.x;
+  light3->pos[1] = c->pos.y;
+  light3->pos[2] = c->pos.z;
+  light3->spot.direction[0] = c->coi.x;
+  light3->spot.direction[1] = c->coi.y;
+  light3->spot.direction[2] = c->coi.z;
+  draw_light(light3);
+
   glPopMatrix();
-  //draw_light(light3);
 
   //glPushMatrix();
   //GLfloat light_position[] = {0.0, 20.0, 10.0, 1.0};
