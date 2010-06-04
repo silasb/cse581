@@ -14,4 +14,7 @@ void idle();
 int nearClip, farClip;
 bool_t ortho;
 
+int gndTexture;
+int wallTex;
+
 #endif

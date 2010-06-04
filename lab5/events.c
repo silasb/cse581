@@ -20,7 +20,7 @@
 
 /* global varibles */
 GLfloat zoomFactor = 1;
-bool_t ortho=true;
+bool_t ortho=false;
 
 void
 keyboard(unsigned char key, int x, int y)

@@ -8,10 +8,10 @@ camera_t* init_camera()
   c = (camera_t *)malloc(sizeof(camera_t));
 
   c->pos.x = 0;
-  c->pos.y = 0;
+  c->pos.y = 25;
   c->pos.z = 25;
   c->coi.x = 0;
-  c->coi.y = 0;
+  c->coi.y = 25;
   c->coi.z = -25;
   c->up.x = 0;
   c->up.y = 1;

@@ -45,17 +45,18 @@ display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  zoomFactor = 2.5;
+  zoomFactor = 1.0;
   if(ortho)
     setup_ortho_matrix();
   else
     setup_projection_matrix();
 
-  c->pos.x = 20;
-  c->pos.y = 20;
+  c->pos.x = 0;
+  c->pos.y = 25;
+  c->pos.z = 25;
   c->coi.x = 0;
-  c->coi.y = 5;
-  c->coi.z = 0;
+  c->coi.y = 0;
+  c->coi.z = -25;
   set_camera_perspective(c);
 
   glPushMatrix();
@@ -91,14 +92,6 @@ display()
 
   glPopMatrix();
 
-  //glPushMatrix();
-  //GLfloat light_position[] = {0.0, 20.0, 10.0, 1.0};
-  //glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-  //glColor3f(1, 1, 1);
-  //glTranslatef(light_position[0], light_position[1], light_position[2]);
-  //glutWireCube(0.5);
-  //glPopMatrix();
-
   /*
   entity_t e;
   obj_load("data/cube3.obj", &e);
@@ -106,6 +99,34 @@ display()
   draw_entity(&e);
   */
 
+  glEnable(GL_TEXTURE_2D);
+
+  glPushMatrix();
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+  glBindTexture(GL_TEXTURE_2D, wallTex);
+
+  // floor
+  glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex3f(-25, 0, 25);
+    glTexCoord2d(1, 0); glVertex3f(25, 0, 25);
+    glTexCoord2d(1, 1); glVertex3f(25, 0, -25);
+    glTexCoord2d(0, 1); glVertex3f(-25, 0, -25);
+  glEnd();
+
+  glBindTexture(GL_TEXTURE_2D, gndTexture);
+
+  // far wall
+  glBegin(GL_QUADS);
+    glTexCoord2d(0, 0); glVertex3f(-25, 0, -25);
+    glTexCoord2d(1, 0); glVertex3f(25, 0, -25);
+    glTexCoord2d(1, 1); glVertex3f(25, 25, -25);
+    glTexCoord2d(0, 1); glVertex3f(-25, 25, -25);
+  glEnd();
+
+  glPopMatrix();
+
+  glDisable(GL_TEXTURE_2D);
+  
   // animation
   glRotatef(rot, 0, 1, 0);
   glTranslatef(2, 3, 0);

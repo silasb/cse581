@@ -22,7 +22,8 @@
 #include "events.h"
 #include "drawing.h"
 
-GLuint gndTexture;
+extern int gndTexture;
+extern int wallTex;
 
 void initGL();
 
@@ -41,7 +42,8 @@ int main(int argc, char** argv)
 
   initGL();
 
-  //gndTexture = loadTexture("Untitled.ppm", 1);
+  gndTexture = loadTexture("data/tex1.ppm", 1);
+  wallTex = loadTexture("data/tex2.ppm", 1);
 
   c = init_camera();
   set_camera_perspective(c);
@@ -53,7 +55,8 @@ int main(int argc, char** argv)
   light0->diffuse[1] = 1;
   light0->diffuse[2] = 1;
   light0->diffuse[3] = 1;
-  light0->pos[1] = 50.0f;
+  light0->pos[1] = 20;
+  light0->pos[1] = 45.0f;
 
   // light2 - point
   light1 = init_light(GL_LIGHT1, 0);
@@ -98,7 +101,7 @@ int main(int argc, char** argv)
   light3->diffuse[2] = 1;
 
   light3->spot.concentration = 1.0f;
-  light3->spot.cutoff = 10.2;
+  light3->spot.cutoff = 10.0;
 
   glutMainLoop();
 
@@ -130,9 +133,9 @@ initGL() {
   float matDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
   float matSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, matAmbient);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, matDiffuse);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpecular);
-  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20.0f);
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, matAmbient);
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, matDiffuse);
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpecular);
+  //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20.0f);
 
 }
