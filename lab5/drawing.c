@@ -13,6 +13,7 @@
 #include "common.h"
 #include "drawing.h"
 #include "events.h"
+#include "loader/obj_loader.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,14 +55,23 @@ display()
   glutWireCube(0.5);
   glPopMatrix();
 
+  entity_t e;
+  obj_load("data/cube3.obj", &e);
+  glColor3f(1, 1, 0);
+  draw_entity(&e);
+   
   /* draw teapot */
+  /*
   glPushMatrix();
   glColor3f(1.0, 0.2, 0.2);
   glTranslatef(0, 3, 0);
   glutSolidTeapot(3);
   glPopMatrix();
+  */
 
   glutSwapBuffers();
+
+  //free(&e);
 }
 
 void
