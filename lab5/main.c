@@ -37,6 +37,7 @@ int main(int argc, char** argv)
   glutDisplayFunc(display);
   glutReshapeFunc(resize);
   glutKeyboardFunc(keyboard);
+  glutIdleFunc(idle);
 
   initGL();
 

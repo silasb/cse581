@@ -27,6 +27,8 @@ bool_t trackballMove=false;
 int frame=0;
 int movie[300];
 
+float rot = 0;
+
 extern camera_t *c;
 
 /* prototypes */
@@ -39,6 +41,7 @@ display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  zoomFactor = 2.5;
   if(ortho)
     setup_ortho_matrix();
   else
@@ -46,6 +49,9 @@ display()
 
   c->pos.x = 20;
   c->pos.y = 20;
+  c->coi.x = 0;
+  c->coi.y = 5;
+  c->coi.z = 0;
   set_camera_perspective(c);
 
   glPushMatrix();
@@ -56,42 +62,52 @@ display()
   glutWireCube(0.5);
   glPopMatrix();
 
+  /*
   entity_t e;
   obj_load("data/cube3.obj", &e);
   glColor3f(1, .5, 0);
   draw_entity(&e);
+  */
 
   // animation
-  glColor3f(1, 0, 0);
+  glRotatef(rot, 0, 1, 0);
+  glTranslatef(2, 3, 0);
+
   glPushMatrix();
-  glTranslatef(0, 3, 0);
-  glutSolidCube(3);
+    glColor3f(1, 0, 0);
+    glutSolidCube(3);
   glPopMatrix();
 
-  glColor3f(1, 1, 0);
+  glTranslatef(2, 3, 0);
+
   glPushMatrix();
-  glTranslatef(0, 6, 0);
-  glRotatef(45, 0, 1, 0);
-  glutSolidCube(3);
+    glColor3f(1, 1, 0);
+    glutSolidCube(3);
   glPopMatrix();
 
-  glColor3f(1, 1, 1);
+  glTranslatef(2, 3, 0);
+
   glPushMatrix();
-  glTranslatef(0, 9, 0);
-  glRotatef(25, 0, -1, 0);
-  glutSolidCube(3);
+    glColor3f(1, 1, 1);
+    glutSolidCube(3);
   glPopMatrix();
 
-  glColor3f(.5, .5, .5);
+  glTranslatef(2, 3, 0);
+
   glPushMatrix();
-  glTranslatef(0, 12, 0);
-  glRotatef(15, 0, 1, 0);
-  glutSolidCube(3);
+    glColor3f(.5, .5, .5);
+    glutSolidCube(3);
   glPopMatrix();
 
   glutSwapBuffers();
 
   //free(&e);
+}
+
+void idle()
+{
+  rot += .2;
+  glutPostRedisplay();
 }
 
 void

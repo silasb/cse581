@@ -67,12 +67,12 @@ keyboard(unsigned char key, int x, int y)
       exportPPM();
       break;
     case 'o': // orthogonal projection
-      zoomFactor=1.0f;
+      //zoomFactor=1.0f;
       setup_ortho_matrix();
       ortho=true;
       break;
     case 'p': // perspective projectection
-      zoomFactor=1.0f;
+      //zoomFactor=1.0f;
       setup_projection_matrix();
       ortho=false;
       break;
