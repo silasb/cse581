@@ -112,6 +112,7 @@ display()
 
   glPushMatrix();
     glColor3f(1, 0, 0);
+    glRotatef(-rot, 0, 1, 0);
     glutSolidCube(3);
   glPopMatrix();
 
@@ -119,6 +120,7 @@ display()
 
   glPushMatrix();
     glColor3f(1, 1, 0);
+    glRotatef(-rot, 0, 1, 0);
     glutSolidCube(3);
   glPopMatrix();
 
@@ -126,6 +128,7 @@ display()
 
   glPushMatrix();
     glColor3f(1, 1, 1);
+    glRotatef(rot, 0, 1, 0);
     glutSolidCube(3);
   glPopMatrix();
 
@@ -133,6 +136,7 @@ display()
 
   glPushMatrix();
     glColor3f(.5, .5, .5);
+    glRotatef(-rot, 1, 1, 0);
     glutSolidCube(3);
   glPopMatrix();
 
