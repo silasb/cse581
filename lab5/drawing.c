@@ -14,6 +14,7 @@
 #include "drawing.h"
 #include "events.h"
 #include "loader/obj_loader.h"
+#include "camera.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +26,8 @@ bool_t trackballMove=false;
 
 int frame=0;
 int movie[300];
+
+extern camera_t *c;
 
 /* prototypes */
 void PPMWriteImage(unsigned char *imgBuffer, const int nx, const int ny);
@@ -41,11 +44,7 @@ display()
   else
     setup_projection_matrix();
 
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  gluLookAt(0, 0, 25,
-            0, 0, -25,
-            0, 1, 0);
+  set_camera_perspective(c);
 
   glPushMatrix();
   GLfloat light_position[] = {0.0, 20.0, 10.0, 1.0};
@@ -61,13 +60,11 @@ display()
   draw_entity(&e);
    
   /* draw teapot */
-  /*
   glPushMatrix();
   glColor3f(1.0, 0.2, 0.2);
   glTranslatef(0, 3, 0);
   glutSolidTeapot(3);
   glPopMatrix();
-  */
 
   glutSwapBuffers();
 

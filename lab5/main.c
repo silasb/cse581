@@ -42,7 +42,8 @@ int main(int argc, char** argv)
 
   //gndTexture = loadTexture("Untitled.ppm", 1);
 
-  //loadMovie();
+  c = init_camera();
+  set_camera_perspective(c);
 
   glutMainLoop();
 
@@ -61,7 +62,7 @@ initGL() {
   glShadeModel(GL_SMOOTH);
 
   // setup camera
-  setup_ortho_matrix();
+  //setup_ortho_matrix();
 
   // lighting
   glEnable(GL_LIGHTING);
