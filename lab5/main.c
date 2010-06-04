@@ -70,7 +70,7 @@ int main(int argc, char** argv)
   light2->diffuse[2] = 1;
   light2->diffuse[3] = 1;
 
-  light2->spot.concentration = 15.0f;
+  light2->spot.concentration = 30.0f;
   light2->spot.direction[0] = 0;
   light2->spot.direction[1] = 1;
   light2->spot.direction[2] = 0;
@@ -118,10 +118,10 @@ initGL() {
 
   // lighting
   glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glEnable(GL_LIGHT1);
+  //glEnable(GL_LIGHT0);
+  //glEnable(GL_LIGHT1);
   glEnable(GL_LIGHT2);
-  glEnable(GL_LIGHT3);
+  //glEnable(GL_LIGHT3);
 
   float matAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
   float matDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };

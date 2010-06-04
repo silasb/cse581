@@ -58,6 +58,7 @@ display()
   c->coi.z = 0;
   set_camera_perspective(c);
 
+  glPushMatrix();
   /*
    * Directional light source (w = 0)
    * The light source is at an infinite distance,
@@ -81,6 +82,7 @@ display()
   //draw_light(light1);
   
   draw_light(light2);
+  glPopMatrix();
   //draw_light(light3);
 
   //glPushMatrix();
